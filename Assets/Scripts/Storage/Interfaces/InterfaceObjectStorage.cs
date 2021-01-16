@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Toweristika.Storage
+namespace HitIt.Storage
 { 
     [Serializable]
     public class InterfaceObjectStorage

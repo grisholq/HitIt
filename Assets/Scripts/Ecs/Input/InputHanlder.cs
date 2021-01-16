@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using HitIt.Other;
 
 namespace HitIt.Ecs
 {

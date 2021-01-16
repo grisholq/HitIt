@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using LeopotamGroup.Ecs;
+﻿using LeopotamGroup.Ecs;
 
 namespace HitIt.Ecs
 {
@@ -13,6 +12,11 @@ namespace HitIt.Ecs
         {
             EcsWorld world = new EcsWorld();
             systems = new EcsSystems(world);
+
+            systems.Add(new InputSystem())
+            .Add(new KnifeSystem());
+
+            systems.Initialize();
         }
 
         private void Update()

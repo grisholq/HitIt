@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Toweristika.Storage
+namespace HitIt.Storage
 {
     public class StorageFacility : SingletonBase<StorageFacility>
     {

@@ -1,4 +1,5 @@
-﻿using LeopotamGroup.Ecs;
+﻿using UnityEngine;
+using LeopotamGroup.Ecs;
 
 namespace HitIt.Ecs
 {
@@ -13,7 +14,7 @@ namespace HitIt.Ecs
         public void Initialize()
         {
             world.CreateEntityWith<InputHanlder>().Inizialize();
-            world.CreateEntityWith<InputData>();
+            world.CreateEntityWith<InputData>().Inizialize();
         }
 
         public void Destroy()

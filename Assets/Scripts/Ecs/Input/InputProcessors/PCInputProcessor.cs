@@ -6,7 +6,7 @@ namespace HitIt.Ecs
     {
         public void ProcessInput(InputData data)
         {
-            data.Pressed = Input.GetMouseButton(0);
+            data.Pressed = Input.GetMouseButtonDown(0);
         }
     }
 }

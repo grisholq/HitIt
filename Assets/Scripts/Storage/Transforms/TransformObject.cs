@@ -1,7 +1,8 @@
-﻿namespace Toweristika.Storage
+﻿namespace HitIt.Storage
 {
     public enum TransformObject
     {
-
+        KnifesParent,
+        KnifesPosition
     }
 }

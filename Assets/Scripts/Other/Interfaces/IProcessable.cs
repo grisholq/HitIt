@@ -1,4 +1,4 @@
-﻿namespace HitIt.Ecs
+﻿namespace HitIt.Other
 {
     public interface IProcessable
     {
