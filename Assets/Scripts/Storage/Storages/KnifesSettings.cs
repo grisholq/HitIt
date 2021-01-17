@@ -6,9 +6,10 @@ namespace HitIt.Storage
     public class KnifesSettings : Storage
     {
         public Transform Knife;
+
         public Vector3 ForceDirection;
         public float ForceMultiplier;
 
-        public float KnifeThrowPeriod;
+        public float KnifeThrowPeriod;        
     }
 }
