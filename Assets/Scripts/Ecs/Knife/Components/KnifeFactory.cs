@@ -9,7 +9,6 @@ namespace HitIt.Ecs
         private KnifesSettings settings;
         private KnifesMono knifes;
 
-
         public void Inizialize()
         {
             settings = StorageFacility.Instance.GetStorageByType<KnifesSettings>();
@@ -20,8 +19,12 @@ namespace HitIt.Ecs
         {
             KnifeMono knife = Object.Instantiate(settings.Knife).GetComponent<KnifeMono>();
             knife.transform.eulerAngles = Vector3.zero;
-            knife.transform.position = knifes.SecondaryKnifePosition.position;
             knife.transform.SetParent(knifes.KnifesParent);
+            knife.Rigidbody.maxAngularVelocity = settings.MaxAngularVelocity;
+
+            knife.SetKinematic(true);
+            knife.SetCollisionDetection(false);
+            knife.SetCollisionDetectionMode(CollisionDetectionMode.Discrete);
 
             return knife;
         }

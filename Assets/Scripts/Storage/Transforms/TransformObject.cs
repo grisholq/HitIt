@@ -3,6 +3,6 @@
     public enum TransformObject
     {
         KnifesMono,
-         
+        LogsMono
     }
 }
