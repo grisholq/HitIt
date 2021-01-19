@@ -3,32 +3,40 @@ using HitIt.Other;
 
 namespace HitIt.Ecs
 {
-    public class KnifeMono : MonoBehaviour, IInizializable
+    public class KnifeMono : MonoBehaviour
     {
         [SerializeField] private Rigidbody rigidbody;
+        [SerializeField] private Collider collider;
 
-        private bool hitKnife;
-        private bool hitLog;
-        private bool hitThisFrame;
-
-        [SerializeField] private int knHit;
-        [SerializeField] private int lgHit;
-
-        public void Inizialize()
-        {
-            hitKnife = false;
-            hitLog = false;
-            hitThisFrame = false;            
+        public Rigidbody Rigidbody
+        { 
+            get
+            {
+                return rigidbody;
+            } 
         }
 
-        private void Start()
+        public float SpawnTime { get; set; }
+
+        public void SetKinematic(bool kinematic)
         {
-            Inizialize();
+            rigidbody.isKinematic = kinematic;
         }
 
-        private void Update()
+        public void SetCollisionDetection(bool detection)
+        {          
+            rigidbody.detectCollisions = detection;
+            collider.enabled = detection;
+        }
+
+        public void SetCollisionDetectionMode(CollisionDetectionMode mode)
         {
-            hitThisFrame = false;
+            rigidbody.collisionDetectionMode = mode;
+        }
+
+        public void SetVelocity(Vector3 velocity)
+        {           
+            rigidbody.velocity = velocity;
         }
 
         public void Throw(Vector3 force)
@@ -36,37 +44,22 @@ namespace HitIt.Ecs
             rigidbody.AddForce(force, ForceMode.Acceleration);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        public void Spin(Vector3 spin)
         {
-            if (collision.transform.GetComponent<KnifeMono>() != null)
+            rigidbody.AddTorque(spin, ForceMode.Acceleration);
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            
+            KnifeMono knife = other.transform.GetComponent<KnifeMono>();
+
+            if (knife == null) return;
+
+            if (SpawnTime > knife.SpawnTime)
             {
-                knHit++;
-                if(hitLog & !hitThisFrame) return;
-                rigidbody.detectCollisions = false;
-                rigidbody.useGravity = true;
-                rigidbody.isKinematic = false;
-                rigidbody.velocity = new Vector3(Random.Range(-5f, 5f), -11, 0);
-
-                Vector3 torq = new Vector3(0, 0, 40);
-
-                rigidbody.maxAngularVelocity = 1000;
-                rigidbody.angularVelocity = torq; 
-
-                transform.SetParent(GameObject.Find("Knifes").transform);
-
-                hitKnife = true;
-                hitThisFrame = true;
-            }
-            else if (collision.transform.GetComponent<Sticky>() != null)
-            {
-                lgHit++;
-                if (hitKnife) return;
-
-                rigidbody.isKinematic = true;
-                transform.SetParent(collision.transform, true);
-
-                hitLog = true;
-                hitThisFrame = true;
+                KnifeHitKnifeEvent e = World.Instance.Current.CreateEntityWith<KnifeHitKnifeEvent>();
+                e.Knife = this;
             }
         }
     }

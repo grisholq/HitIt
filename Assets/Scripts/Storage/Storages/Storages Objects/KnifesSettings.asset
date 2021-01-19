@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: KnifesSettings
   m_EditorClassIdentifier: 
   Knife: {fileID: 7677963794586006392, guid: 212bd0f8e16b4b54bae98aed578606ba, type: 3}
+  MaxAngularVelocity: 100
   ForceDirection: {x: 0, y: 1, z: 0}
   ForceMultiplier: 1000
+  RicochetForceMin: {x: -200, y: -300, z: 0}
+  RicochetForceMax: {x: 200, y: -500, z: 0}
+  RicochetSpin: {x: 0, y: 0, z: 1}
+  RicochetSpinMultiplier: 1200
   KnifeThrowPeriod: 0.1
+  KnifePositioningTime: 0.1

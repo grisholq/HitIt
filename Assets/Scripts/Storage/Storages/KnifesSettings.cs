@@ -7,9 +7,19 @@ namespace HitIt.Storage
     {
         public Transform Knife;
 
+        public float MaxAngularVelocity;
+
         public Vector3 ForceDirection;
         public float ForceMultiplier;
 
-        public float KnifeThrowPeriod;        
+        public Vector3 RicochetForceMin;
+        public Vector3 RicochetForceMax;
+
+        public Vector3 RicochetSpin;
+        public float RicochetSpinMultiplier;        
+
+        public float KnifeThrowPeriod;
+
+        public float KnifePositioningTime;
     }
 }
