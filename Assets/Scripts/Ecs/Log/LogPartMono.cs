@@ -2,8 +2,8 @@
 
 public class LogPartMono : MonoBehaviour
 {
-    [SerializeField] private Rigidbody rigidbody;
-    [SerializeField] private Collider collider;
+    [SerializeField] private new Rigidbody rigidbody;
+    [SerializeField] private new Collider collider;
 
     public Rigidbody Rigidbody
     {

@@ -18,7 +18,7 @@ namespace HitIt.Ecs
         {
             log.DisableLog();
             log.ActivateLogParts();
-            log.ExplodeLogParts(settings.LogExplosionForce, settings.LogExplosionRadius);
+            //log.ExplodeLogParts(settings.LogExplosionForce, settings.LogExplosionRadius);
         }
     }
 }

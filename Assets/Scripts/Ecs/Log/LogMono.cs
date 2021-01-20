@@ -7,7 +7,7 @@ namespace HitIt.Ecs
 
         [SerializeField] private LogPartMono[] logParts;
         [SerializeField] private Transform explosionPosition;
-        [SerializeField] private Collider collider;
+        [SerializeField] private new Collider collider;
 
         public void DisableLog()
         {
