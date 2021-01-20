@@ -17,7 +17,7 @@ namespace HitIt.Ecs
 
         public LogMono GetLog()
         {
-            LogMono log = Object.Instantiate(settings.Log).gameObject.AddComponent<LogMono>();
+            LogMono log = Object.Instantiate(settings.Log).GetComponent<LogMono>();
             log.transform.position = logsMono.LogPostion.position;
             log.transform.SetParent(logsMono.LogParent);
 

@@ -50,7 +50,7 @@ namespace HitIt.Ecs
 
             knife.SetKinematic(true);
             knife.SetCollisionDetection(true);
-            knife.SetCollisionDetectionMode(CollisionDetectionMode.Discrete);
+            knife.SetCollisionDetectionMode(CollisionDetectionMode.ContinuousSpeculative);
         }
 
         public void AttachObject(LogMono log, Transform obj, float radius, float angle)

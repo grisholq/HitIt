@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Rotation: {x: 0, y: 0, z: 1}
   RotationMultiplier: 100
-  Log: {fileID: 3624627303645691210, guid: ded2074debfacb2469a64cec53d7d2b5, type: 3}
+  Log: {fileID: 8850786292365362237, guid: da4d4f64ae851f74bbd5c75561c34c18, type: 3}
   KnifeRadius: 1
+  LogExplosionForce: 22
+  LogExplosionRadius: 22
