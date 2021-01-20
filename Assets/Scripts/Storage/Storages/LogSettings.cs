@@ -11,5 +11,8 @@ namespace HitIt.Storage
         public Transform Log;
 
         public float KnifeRadius;
+
+        public float LogExplosionForce;
+        public float LogExplosionRadius;
     }
 }

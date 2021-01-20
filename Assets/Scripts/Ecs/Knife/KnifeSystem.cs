@@ -14,25 +14,45 @@ namespace HitIt.Ecs
         private EcsFilterSingle<KnifeBuffer> knifeBufferFilter = null;
         private EcsFilterSingle<KnifePositioner> knifePositionerFilter = null;
         private EcsFilterSingle<KnifesPreparer> knifePreparerFilter = null;
-     
+        private EcsFilterSingle<KnifeUIHandler> knifeUIFilter = null;
+        private EcsFilterSingle<KnifeCounter> knifeCounterFilter = null;
+
         private EcsFilterSingle<InputData> inputDataFilter = null;
+
         private EcsFilter<KnifeHitKnifeEvent> knifeHitEvent = null;
+        private EcsFilter<KnifesExpiredEvent> knifesExpiredEvent = null;
+
+        private KnifeFactory Factory { get { return knifeFactoryFilter.Data; } }
+        private KnifeThrower Thrower { get { return knifeThrowerFilter.Data; } }
+        private KnifeTimer Timer { get { return knifeTimerFilter.Data; } }
+        private KnifeBuffer Buffer { get { return knifeBufferFilter.Data; } }
+        private KnifePositioner Positioner { get { return knifePositionerFilter.Data; } }
+        private KnifesPreparer Preparer { get { return knifePreparerFilter.Data; } }
+        private KnifeUIHandler UIHanlder { get { return knifeUIFilter.Data; } }
+        private KnifeCounter Counter { get { return knifeCounterFilter.Data; } }
+        private InputData Input { get { return inputDataFilter.Data; } }
 
         public void Initialize()
         {
             KnifeFactory factory = world.CreateEntityWith<KnifeFactory>();
             KnifePositioner positioner = world.CreateEntityWith<KnifePositioner>();
-            KnifeBuffer buffer = world.CreateEntityWith<KnifeBuffer>();
+            KnifeBuffer buffer = world.CreateEntityWith<KnifeBuffer>(); 
+            KnifeCounter counter = world.CreateEntityWith<KnifeCounter>();
+            KnifeUIHandler knifeUI = world.CreateEntityWith<KnifeUIHandler>();
             world.CreateEntityWith<KnifeThrower>().Inizialize();
             world.CreateEntityWith<KnifeTimer>().Inizialize();                       
             world.CreateEntityWith<KnifesPreparer>().Inizialize();
 
+
             factory.Inizialize();
             positioner.Inizialize();
+            knifeUI.Inizialize();
+            counter.Inizialize();
 
             KnifeMono knife = factory.GetKnife();
             buffer.ActiveKnife = knife;
             positioner.SetKnifePosition(knife.transform, KnifePositions.Active);
+            knifeUI.SetKnifeAmount(counter.Left, counter.Total);
         }
 
         public void Destroy()
@@ -44,24 +64,31 @@ namespace HitIt.Ecs
         {
             RunEvents();
 
-            KnifeFactory factory = knifeFactoryFilter.Data;
-            KnifeThrower thrower = knifeThrowerFilter.Data;
-            KnifeBuffer buffer = knifeBufferFilter.Data;
-            KnifePositioner positioner = knifePositionerFilter.Data;
-            KnifesPreparer preparer = knifePreparerFilter.Data;
+            if (knifesExpiredEvent.EntitiesCount != 0) return;
+      
+            if(!Input.Pressed || !Timer.Update()) return;
 
-
-            if (inputDataFilter.Data.Pressed && knifeTimerFilter.Data.Update())
+            if(Buffer.ActiveKnife != null)
             {
-                positioner.SetKnifePosition(buffer.ActiveKnife.transform, KnifePositions.Active);
-                thrower.ThrowKnife(buffer.ActiveKnife);
-
-                KnifeMono knife = factory.GetKnife();
-                positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
-                buffer.ActiveKnife = knife;
+                Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
+                Thrower.ThrowKnife(Buffer.ActiveKnife);
+                Buffer.ActiveKnife = null;
             }
-
-            if (buffer.ActiveKnife != null) preparer.MoveKnifeToActivePosition(buffer.ActiveKnife);
+            
+            if(!Counter.KnifesExpired())
+            {
+                KnifeMono knife = Factory.GetKnife();
+                Positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
+                Buffer.ActiveKnife = knife;
+                Counter.DecrementLeft();
+                UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
+            }
+            else
+            {
+                world.CreateEntityWith<KnifesExpiredEvent>();
+            }
+            
+            if (Buffer.ActiveKnife != null) Preparer.MoveKnifeToActivePosition(Buffer.ActiveKnife);
         }
 
         private void RunEvents()
@@ -69,11 +96,10 @@ namespace HitIt.Ecs
             if(knifeHitEvent.EntitiesCount != 0)
             {
                 KnifeHitKnifeEvent[] events = knifeHitEvent.Components1;
-                KnifeThrower thrower = knifeThrowerFilter.Data;
 
                 for (int i = 0; i < knifeHitEvent.EntitiesCount; i++)
                 {
-                    thrower.RicochetKnife(events[i].Knife);
+                    Thrower.RicochetKnife(events[i].Knife);
                 }
                 World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
             }

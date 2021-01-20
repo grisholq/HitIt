@@ -21,5 +21,7 @@ namespace HitIt.Storage
         public float KnifeThrowPeriod;
 
         public float KnifePositioningTime;
+
+        public int KnifesOnLevel;
     }
 }

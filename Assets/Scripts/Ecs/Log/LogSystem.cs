@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using LeopotamGroup.Ecs;
+﻿using LeopotamGroup.Ecs;
 
 namespace HitIt.Ecs
 {
@@ -13,7 +12,13 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogRotator> logRotatorFilter = null;
         private EcsFilterSingle<LogBuffer> logBufferFilter = null;
         
+        
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
+
+        private LogSpawner Spawner { get { return logSpawnerFilter.Data; } }
+        private LogAttacher Attacher { get { return logAttacherFilter.Data; } }
+        private LogRotator Rotator { get { return logRotatorFilter.Data; } }
+        private LogBuffer Buffer { get { return logBufferFilter.Data; } }
 
         public void Initialize()
         {
@@ -38,12 +43,7 @@ namespace HitIt.Ecs
         {
             RunEvents();
 
-            LogSpawner spawner = logSpawnerFilter.Data;
-            LogAttacher attacher = logAttacherFilter.Data;
-            LogRotator rotator = logRotatorFilter.Data;
-            LogBuffer buffer = logBufferFilter.Data;
-
-            rotator.RotateLog(buffer.ActiveLog.transform);
+            Rotator.RotateLog(Buffer.ActiveLog.transform);
         }
 
         public void RunEvents()
@@ -51,12 +51,10 @@ namespace HitIt.Ecs
             if(knifeHitFilter.EntitiesCount != 0)
             {
                 KnifeHitLogEvent[] events = knifeHitFilter.Components1;
-                LogAttacher attacher = logAttacherFilter.Data;
-                LogBuffer buffer = logBufferFilter.Data;
 
                 for (int i = 0; i < knifeHitFilter.EntitiesCount; i++)
                 {
-                    attacher.AttachKnife(buffer.ActiveLog ,events[i].Knife);
+                    Attacher.AttachKnife(Buffer.ActiveLog ,events[i].Knife);
                 }
 
                 World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
