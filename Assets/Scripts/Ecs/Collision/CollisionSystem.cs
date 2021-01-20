@@ -23,11 +23,12 @@ namespace HitIt.Ecs
 
         public void Run()
         {
-            //if(knifeHitLogEvent.EntitiesCount == 0 && knifeHitKnifeEvent.EntitiesCount == 0) return
-            //KnifeHitKnifeEvent knifeHit = knifeHitKnifeEvent.Components1[0];
-            //KnifeHitLogEvent logHit = knifeHitLogEvent.Components1[0];
+            if (knifeHitLogEvent.EntitiesCount == 0 || knifeHitKnifeEvent.EntitiesCount == 0) return;
+           
+            KnifeHitKnifeEvent knifeHit = knifeHitKnifeEvent.Components1[0];
+            KnifeHitLogEvent logHit = knifeHitLogEvent.Components1[0];
 
-            //if()
+            if(knifeHit.Knife == logHit.Knife) World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
         }
     }
 }

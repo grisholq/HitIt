@@ -22,3 +22,4 @@ MonoBehaviour:
   RicochetSpinMultiplier: 1200
   KnifeThrowPeriod: 0.1
   KnifePositioningTime: 0.1
+  KnifesOnLevel: 10
