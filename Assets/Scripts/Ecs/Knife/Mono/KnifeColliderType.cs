@@ -3,7 +3,6 @@
     public enum KnifeColliderType
     {
         Active,
-        Unactive,
-        None
+        Unactive
     }
 }
