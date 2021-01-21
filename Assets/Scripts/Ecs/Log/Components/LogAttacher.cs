@@ -43,14 +43,12 @@ namespace HitIt.Ecs
             Vector3 logPosition = log.transform.position;
             knifePosition = (knifePosition - logPosition).normalized;
 
-
             knife.transform.position = logPosition + knifePosition * settings.KnifeRadius;
             knife.transform.SetParent(log.transform);
             knife.transform.eulerAngles = Vector3.zero;
 
-            knife.SetKinematic(true);
-            knife.SetCollisionDetection(true);
-            knife.SetCollisionDetectionMode(CollisionDetectionMode.ContinuousSpeculative);
+            knife.Rigidbody.isKinematic = false;
+            knife.Rigidbody.detectCollisions = false;
         }
 
         public void AttachObject(LogMono log, Transform obj, float radius, float angle)

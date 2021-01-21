@@ -25,16 +25,6 @@ namespace HitIt.Ecs
         public void SetColliderType(KnifeColliderType type)
         {
             ColliderType = type;
-        }        
-
-        public void Throw(Vector3 force)
-        {
-            rigidbody.AddForce(force, ForceMode.Acceleration);
-        }
-
-        public void Spin(Vector3 spin)
-        {
-            rigidbody.AddTorque(spin, ForceMode.Acceleration);
         }
 
         private void SetColliderState(bool state)
@@ -50,7 +40,21 @@ namespace HitIt.Ecs
                     UnactiveCollider.enabled = state;
                     ActiveCollider.enabled = false;
                     break;
+                case KnifeColliderType.None:
+                    ActiveCollider.enabled = false;
+                    UnactiveCollider.enabled = false;
+                    break;
             }
+        }
+
+        public void Throw(Vector3 force)
+        {
+            rigidbody.AddForce(force, ForceMode.Acceleration);
+        }
+
+        public void Spin(Vector3 spin)
+        {
+            rigidbody.AddTorque(spin, ForceMode.Acceleration);
         }
 
         private void OnTriggerStay(Collider other)

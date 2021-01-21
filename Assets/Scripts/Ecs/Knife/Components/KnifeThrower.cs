@@ -23,9 +23,8 @@ namespace HitIt.Ecs
 
         public void ThrowKnife(KnifeMono knife)
         {
-            knife.SetKinematic(false);
-            knife.SetCollisionDetection(true);
-            knife.SetCollisionDetectionMode(CollisionDetectionMode.ContinuousDynamic);
+            knife.Rigidbody.isKinematic = false;
+            knife.Rigidbody.detectCollisions = true;
             knife.SpawnTime = Time.time;
 
             knife.Throw(force);
@@ -33,9 +32,8 @@ namespace HitIt.Ecs
 
         public void RicochetKnife(KnifeMono knife)
         {
-            knife.SetVelocity(Vector3.zero);
-            knife.SetCollisionDetection(false);
-            knife.SetKinematic(false);
+            knife.Rigidbody.isKinematic = false;
+            knife.Rigidbody.detectCollisions = false;
             knife.transform.SetParent(knifesMono.KnifesParent, true);
 
             Vector3 force = new Vector3();
