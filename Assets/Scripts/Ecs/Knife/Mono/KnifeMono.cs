@@ -7,10 +7,8 @@ namespace HitIt.Ecs
     {
         [SerializeField] private new Rigidbody rigidbody;
 
-        [SerializeField] private Collider ActiveCollider;
-        [SerializeField] private Collider UnactiveCollider;
-
-        private KnifeColliderType ColliderType;
+        [SerializeField] private Collider activeCollider;
+        [SerializeField] private Collider unactiveCollider;
 
         public Rigidbody Rigidbody
         { 
@@ -20,18 +18,32 @@ namespace HitIt.Ecs
             } 
         }
 
+<<<<<<< HEAD
         public float SpawnTime { get; set; }     
 
         public void SetColliderType(KnifeColliderType type)
         {
             ColliderType = type;
+=======
+        public float SpawnTime { get; set; }        
+
+        public void Throw(Vector3 force)
+        {
+            rigidbody.AddForce(force, ForceMode.Acceleration);
         }
 
-        private void SetColliderState(bool state)
+        public void Spin(Vector3 spin)
         {
-            switch (ColliderType)
+            rigidbody.AddTorque(spin, ForceMode.Acceleration);
+>>>>>>> 765f59305c931184f06d0fecf9e9528deae81a07
+        }
+
+        public void SetColliderActivity(KnifeColliderType type)
+        {
+            switch (type)
             {
                 case KnifeColliderType.Active:
+<<<<<<< HEAD
                     ActiveCollider.enabled = state;
                     UnactiveCollider.enabled = false;
                     break;
@@ -44,6 +56,9 @@ namespace HitIt.Ecs
                     ActiveCollider.enabled = false;
                     UnactiveCollider.enabled = false;
                     break;
+=======
+                    breaK
+>>>>>>> 765f59305c931184f06d0fecf9e9528deae81a07
             }
         }
 
@@ -60,13 +75,19 @@ namespace HitIt.Ecs
         private void OnTriggerStay(Collider other)
         {
             KnifeMono knife = other.transform.GetComponent<KnifeMono>();
+            LogMono log = other.transform.GetComponent<LogMono>();
 
-            if (knife == null) return;
-
-            if (SpawnTime > knife.SpawnTime)
+            if (knife != null)
             {
-                KnifeHitKnifeEvent e = World.Instance.Current.CreateEntityWith<KnifeHitKnifeEvent>();
-                e.Knife = this;
+                if (SpawnTime > knife.SpawnTime)
+                {
+                    World.Instance.Current.CreateEntityWith<KnifeHitKnifeEvent>().Knife = this;
+                }
+            }
+
+            if (log != null)
+            {
+                World.Instance.Current.CreateEntityWith<KnifeHitLogEvent>().Knife = this;
             }
         }
     }
