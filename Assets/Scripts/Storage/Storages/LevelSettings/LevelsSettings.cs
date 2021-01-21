@@ -3,8 +3,8 @@
 namespace HitIt.Storage
 {
     [CreateAssetMenu(fileName = "LevelSettings", menuName = "MyAssets/Settings/LevelSettings")]
-    public class LevelSettings : Storage
+    public class LevelsSettings : Storage
     {
-        
+        public LevelData[] Levels;
     }
 }

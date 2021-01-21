@@ -1,5 +1,7 @@
 ﻿using HitIt.Other;
 using HitIt.Storage;
+using System.Collections;
+using UnityEngine;
 
 namespace HitIt.Ecs
 {
@@ -16,9 +18,15 @@ namespace HitIt.Ecs
 
         public void BreakLog(LogMono log)
         {
+            GlobalMono.Instance.StartCoroutine(Delay());
             log.DisableLog();
             log.ActivateLogParts();
-            //log.ExplodeLogParts(settings.LogExplosionForce, settings.LogExplosionRadius);
+            log.ExplodeLogParts(settings.LogExplosionForce, settings.LogExplosionRadius);
+        }
+
+        IEnumerator Delay()
+        {
+            yield return new WaitForFixedUpdate();
         }
     }
 }

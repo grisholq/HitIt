@@ -15,7 +15,6 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogLevelSettings> logSettingsFilter = null;
 
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
-        private EcsFilter<KnifesExpiredEvent> knifesExpiredEvent = null;
         private EcsFilter<AllKnifeAttachedEvent> knifesAttachedEvent = null;
 
         private LogSpawner Spawner { get { return logSpawnerFilter.Data; } }
@@ -23,6 +22,7 @@ namespace HitIt.Ecs
         private LogRotator Rotator { get { return logRotatorFilter.Data; } }
         private LogBuffer Buffer { get { return logBufferFilter.Data; } }
         private LogBreaker Breaker { get { return logBreakerFilter.Data; } }
+        private LogLevelSettings Settings { get { return logSettingsFilter.Data; } }
 
         public void Initialize()
         {
@@ -30,7 +30,8 @@ namespace HitIt.Ecs
             LogBuffer buffer = world.CreateEntityWith<LogBuffer>();          
             world.CreateEntityWith<LogAttacher>().Inizialize();
             world.CreateEntityWith<LogRotator>().Inizialize();
-            world.CreateEntityWith<LogBreaker>();
+            world.CreateEntityWith<LogBreaker>().Inizialize();
+            world.CreateEntityWith<LogLevelSettings>().KnifesToAttach = 10;
 
             spawner.Inizialize();
             buffer.Inizialize();
@@ -48,6 +49,14 @@ namespace HitIt.Ecs
         {
             RunEvents();
 
+            if (knifesAttachedEvent.EntitiesCount != 0) return;
+
+            if (Attacher.AttachedKnifesCount == Settings.KnifesToAttach)
+            {
+                Breaker.BreakLog(Buffer.ActiveLog);
+                world.CreateEntityWith<AllKnifeAttachedEvent>();
+                return;
+            }
             
 
             Rotator.RotateLog(Buffer.ActiveLog.transform);
@@ -61,16 +70,11 @@ namespace HitIt.Ecs
 
                 for (int i = 0; i < knifeHitFilter.EntitiesCount; i++)
                 {
-                    Attacher.AttachKnife(Buffer.ActiveLog ,events[i].Knife);
+                    Attacher.AttachKnife(Buffer.ActiveLog, events[i].Knife);
                 }
 
                 World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
-            }
-
-            if (knifesExpiredEvent.EntitiesCount != 0)
-            {
-                Breaker.BreakLog(Buffer.ActiveLog);
-            }
+            }       
         }
     }
 }

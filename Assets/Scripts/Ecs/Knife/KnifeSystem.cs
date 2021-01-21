@@ -66,28 +66,29 @@ namespace HitIt.Ecs
 
             if (knifesExpiredEvent.EntitiesCount != 0) return;
       
-            if(!Input.Pressed || !Timer.Update()) return;
+            if(Input.Pressed && Timer.Update())
+            {
+                if (Buffer.ActiveKnife != null)
+                {
+                    Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
+                    Thrower.ThrowKnife(Buffer.ActiveKnife);
+                    Buffer.ActiveKnife = null;
+                }
 
-            if(Buffer.ActiveKnife != null)
-            {
-                Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
-                Thrower.ThrowKnife(Buffer.ActiveKnife);
-                Buffer.ActiveKnife = null;
+                if (!Counter.KnifesExpired())
+                {
+                    KnifeMono knife = Factory.GetKnife();
+                    Positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
+                    Buffer.ActiveKnife = knife;
+                    Counter.DecrementLeft();
+                    UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
+                }
+                else
+                {
+                    world.CreateEntityWith<KnifesExpiredEvent>();
+                }
             }
-            
-            if(!Counter.KnifesExpired())
-            {
-                KnifeMono knife = Factory.GetKnife();
-                Positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
-                Buffer.ActiveKnife = knife;
-                Counter.DecrementLeft();
-                UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
-            }
-            else
-            {
-                world.CreateEntityWith<KnifesExpiredEvent>();
-            }
-            
+           
             if (Buffer.ActiveKnife != null) Preparer.MoveKnifeToActivePosition(Buffer.ActiveKnife);
         }
 
@@ -100,8 +101,7 @@ namespace HitIt.Ecs
                 for (int i = 0; i < knifeHitEvent.EntitiesCount; i++)
                 {
                     Thrower.RicochetKnife(events[i].Knife);
-                }
-                World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
+                }              
             }
         }
     }

@@ -5,8 +5,12 @@ namespace HitIt.Ecs
 {
     public class KnifeMono : MonoBehaviour
     {
-        [SerializeField] private Rigidbody rigidbody;
-        [SerializeField] private Collider collider;
+        [SerializeField] private new Rigidbody rigidbody;
+
+        [SerializeField] private Collider ActiveCollider;
+        [SerializeField] private Collider UnactiveCollider;
+
+        private KnifeColliderType ColliderType;
 
         public Rigidbody Rigidbody
         { 
@@ -16,28 +20,12 @@ namespace HitIt.Ecs
             } 
         }
 
-        public float SpawnTime { get; set; }
+        public float SpawnTime { get; set; }     
 
-        public void SetKinematic(bool kinematic)
+        public void SetColliderType(KnifeColliderType type)
         {
-            rigidbody.isKinematic = kinematic;
-        }
-
-        public void SetCollisionDetection(bool detection)
-        {          
-            rigidbody.detectCollisions = detection;
-            collider.enabled = detection;
-        }
-
-        public void SetCollisionDetectionMode(CollisionDetectionMode mode)
-        {
-            rigidbody.collisionDetectionMode = mode;
-        }
-
-        public void SetVelocity(Vector3 velocity)
-        {           
-            rigidbody.velocity = velocity;
-        }
+            ColliderType = type;
+        }        
 
         public void Throw(Vector3 force)
         {
@@ -49,9 +37,24 @@ namespace HitIt.Ecs
             rigidbody.AddTorque(spin, ForceMode.Acceleration);
         }
 
+        private void SetColliderState(bool state)
+        {
+            switch (ColliderType)
+            {
+                case KnifeColliderType.Active:
+                    ActiveCollider.enabled = state;
+                    UnactiveCollider.enabled = false;
+                    break;
+
+                case KnifeColliderType.Unactive:
+                    UnactiveCollider.enabled = state;
+                    ActiveCollider.enabled = false;
+                    break;
+            }
+        }
+
         private void OnTriggerStay(Collider other)
         {
-            
             KnifeMono knife = other.transform.GetComponent<KnifeMono>();
 
             if (knife == null) return;
