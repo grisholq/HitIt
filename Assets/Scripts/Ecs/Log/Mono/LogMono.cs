@@ -5,8 +5,19 @@ namespace HitIt.Ecs
     public class LogMono : MonoBehaviour
     {
         [SerializeField] private LogPartMono[] logParts;
+        [SerializeField] private Transform childs;
         [SerializeField] private Transform explosionPosition;
         [SerializeField] private new Collider collider;
+
+        public void Rotate(Vector3 rotation)
+        {
+            childs.Rotate(rotation);
+        }
+
+        public void AddChild(Transform child)
+        {
+            child.SetParent(childs);
+        }
 
         public void DisableLog()
         {

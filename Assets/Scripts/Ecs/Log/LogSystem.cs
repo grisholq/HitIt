@@ -54,10 +54,11 @@ namespace HitIt.Ecs
             if(Settings.KnifesToAttach == Attacher.AttachedKnifesCount)
             {
                 Breaker.BreakLog(Buffer.ActiveLog);
-                world.CreateEntityWith<AllKnifesAttachedEvent>().Knifes = Attacher.GetAttachedKnifes();
+                world.CreateEntityWith<KnifesRandomForceEvent>().Knifes = Attacher.GetAttachedKnifes();
+                world.CreateEntityWith<AllKnifesAttachedEvent>();
             }
 
-            Rotator.RotateLog(Buffer.ActiveLog.transform);
+            Rotator.RotateLog(Buffer.ActiveLog);
         }
 
         public void RunEvents()

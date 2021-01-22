@@ -16,9 +16,9 @@ namespace HitIt.Ecs
             rotation = settings.Rotation * settings.RotationMultiplier;
         }
 
-        public void RotateLog(Transform enemy)
+        public void RotateLog(LogMono log)
         {
-            enemy.Rotate(rotation * Time.deltaTime);
+            log.Rotate(rotation * Time.deltaTime);
         }
     }
 }

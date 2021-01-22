@@ -21,7 +21,7 @@ namespace HitIt.Ecs
 
         private EcsFilter<KnifeHitKnifeEvent> knifeHitEvent = null;
         private EcsFilter<KnifesExpiredEvent> knifesExpiredEvent = null;
-        private EcsFilter<KnifesRandomForceEvent> knifesForceEvent = null;
+        private EcsFilter<KnifesRandomForceEvent> knifesRandomForcesEvent = null;
 
         private KnifeFactory Factory { get { return knifeFactoryFilter.Data; } }
         private KnifeTimer Timer { get { return knifeTimerFilter.Data; } }
@@ -110,11 +110,11 @@ namespace HitIt.Ecs
                 World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
             }
 
-             if(knifesAttachedEvent.EntitiesCount != 0)
+             if(knifeForcesFilter.EntitiesCount != 0)
             {
-               AllKnifesAttachedEvent[] events = knifesAttachedEvent.Components1;
+               KnifesRandomForceEvent[] events = knifesRandomForcesEvent.Components1;
                 
-                for (int i = 0; i < knifeHitEvent.EntitiesCount; i++)
+                for (int i = 0; i < knifesRandomForcesEvent.EntitiesCount; i++)
                 {
                     for (int i1 = 0; i1 < events[i].Knifes.Count; i1++)
                     {
@@ -123,7 +123,7 @@ namespace HitIt.Ecs
                         events[i].Knifes[i1].ApplyTorque(Forces.RandomTorque);
                     }              
                 }
-                //World.Instance.RemoveEntitiesWith<AllKnifesAttachedEvent>();             
+                World.Instance.RemoveEntitiesWith<KnifesRandomForceEvent>();             
             }
         }
     }

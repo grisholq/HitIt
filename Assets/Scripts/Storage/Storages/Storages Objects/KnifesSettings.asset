@@ -18,8 +18,8 @@ MonoBehaviour:
   ThrowForceMultiplier: 850
   RicochetForceMin: {x: -200, y: -300, z: 0}
   RicochetForceMax: {x: 200, y: -500, z: 0}
-  RandomForceMin: {x: -300, y: -300, z: -300}
-  RandomForceMax: {x: 300, y: 300, z: 300}
+  RandomForceMin: {x: -300, y: -200, z: -300}
+  RandomForceMax: {x: 300, y: 0, z: 300}
   RandomTorqueMin: {x: -500, y: -500, z: -500}
   RandomTorqueMax: {x: 500, y: 500, z: 500}
   RicochetSpin: {x: 0, y: 0, z: 1}
