@@ -4,7 +4,6 @@ namespace HitIt.Ecs
 {
     public class LogMono : MonoBehaviour
     {
-
         [SerializeField] private LogPartMono[] logParts;
         [SerializeField] private Transform explosionPosition;
         [SerializeField] private new Collider collider;

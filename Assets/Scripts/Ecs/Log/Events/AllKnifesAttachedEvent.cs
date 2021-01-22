@@ -2,8 +2,8 @@
 
 namespace HitIt.Ecs
 {
-    public class AllKnifeAttachedEvent
+    public class AllKnifesAttachedEvent
     {
-
+        
     }
 }

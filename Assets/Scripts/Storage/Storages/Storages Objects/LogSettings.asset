@@ -16,5 +16,5 @@ MonoBehaviour:
   RotationMultiplier: 100
   Log: {fileID: 8850786292365362237, guid: da4d4f64ae851f74bbd5c75561c34c18, type: 3}
   KnifeRadius: 1
-  LogExplosionForce: 22
-  LogExplosionRadius: 22
+  LogExplosionForce: 50
+  LogExplosionRadius: 0

@@ -9,11 +9,17 @@ namespace HitIt.Storage
 
         public float MaxAngularVelocity;
 
-        public Vector3 ForceDirection;
-        public float ForceMultiplier;
+        public Vector3 ThrowForceDirection;
+        public float ThrowForceMultiplier;
 
         public Vector3 RicochetForceMin;
         public Vector3 RicochetForceMax;
+       
+        public Vector3 RandomForceMin;
+        public Vector3 RandomForceMax;
+
+        public Vector3 RandomTorqueMin;
+        public Vector3 RandomTorqueMax;
 
         public Vector3 RicochetSpin;
         public float RicochetSpinMultiplier;        

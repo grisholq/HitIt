@@ -44,11 +44,11 @@ namespace HitIt.Ecs
             knifePosition = (knifePosition - logPosition).normalized;
 
             knife.transform.position = logPosition + knifePosition * settings.KnifeRadius;
-            knife.transform.SetParent(log.transform);
+            knife.transform.SetParent(log.transform, true);
             knife.transform.eulerAngles = Vector3.zero;
 
-            knife.Rigidbody.isKinematic = false;
-            knife.Rigidbody.detectCollisions = false;
+            knife.Stop(true);
+            knife.ColliderType = KnifeColliderType.Unactive;
         }
 
         public void AttachObject(LogMono log, Transform obj, float radius, float angle)
@@ -60,6 +60,11 @@ namespace HitIt.Ecs
 
             obj.transform.position = logPosition + objPosition * settings.KnifeRadius;
             obj.transform.SetParent(log.transform);
+        }
+
+        public List<KnifeMono> GetAttachedKnifes()
+        {
+            return attachedKnifes;
         }
     }
 }

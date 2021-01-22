@@ -10,69 +10,86 @@ namespace HitIt.Ecs
         [SerializeField] private Collider activeCollider;
         [SerializeField] private Collider unactiveCollider;
 
+        private KnifeColliderType colliderType;
+        private bool colliderState;
+
+        public float SpawnTime { get; set; }
+        public KnifeColliderType ColliderType 
+        {
+            get
+            {
+                return colliderType;
+            }
+
+            set
+            {
+                colliderType = value;
+                SetCollidersState(colliderState);
+            }
+        }
         public Rigidbody Rigidbody
-        { 
+        {
             get
             {
                 return rigidbody;
-            } 
-        }
-
-<<<<<<< HEAD
-        public float SpawnTime { get; set; }     
-
-        public void SetColliderType(KnifeColliderType type)
-        {
-            ColliderType = type;
-=======
-        public float SpawnTime { get; set; }        
-
-        public void Throw(Vector3 force)
-        {
-            rigidbody.AddForce(force, ForceMode.Acceleration);
-        }
-
-        public void Spin(Vector3 spin)
-        {
-            rigidbody.AddTorque(spin, ForceMode.Acceleration);
->>>>>>> 765f59305c931184f06d0fecf9e9528deae81a07
-        }
-
-        public void SetColliderActivity(KnifeColliderType type)
-        {
-            switch (type)
-            {
-                case KnifeColliderType.Active:
-<<<<<<< HEAD
-                    ActiveCollider.enabled = state;
-                    UnactiveCollider.enabled = false;
-                    break;
-
-                case KnifeColliderType.Unactive:
-                    UnactiveCollider.enabled = state;
-                    ActiveCollider.enabled = false;
-                    break;
-                case KnifeColliderType.None:
-                    ActiveCollider.enabled = false;
-                    UnactiveCollider.enabled = false;
-                    break;
-=======
-                    breaK
->>>>>>> 765f59305c931184f06d0fecf9e9528deae81a07
             }
         }
 
-        public void Throw(Vector3 force)
+        private void OnEnable()
+        {
+            colliderState = false;
+            colliderType = KnifeColliderType.Active;
+        }
+
+        public void ApplyForce(Vector3 force)
         {
             rigidbody.AddForce(force, ForceMode.Acceleration);
         }
 
-        public void Spin(Vector3 spin)
+        public void ApplyTorque(Vector3 torque)
         {
-            rigidbody.AddTorque(spin, ForceMode.Acceleration);
+            rigidbody.AddTorque(torque, ForceMode.Acceleration);
         }
 
-        private void OnTriggerStay(Collider other)
+        public void Activate()
+        {
+            rigidbody.isKinematic = false;
+            SetCollidersState(true);
+        }
+
+        public void Stop(bool collidable)
+        {
+            rigidbody.isKinematic = true;
+            SetCollidersState(collidable);
+        }
+
+        public void Deactivate()
+        {
+            rigidbody.isKinematic = false;
+            SetCollidersState(false);
+        }
+
+        private void SetCollidersState(bool state)
+        {
+            activeCollider.enabled = false; 
+            unactiveCollider.enabled = false;
+
+            colliderState = state;            
+            rigidbody.detectCollisions = state;
+
+            switch (ColliderType)
+            {
+                case KnifeColliderType.Active:
+                    activeCollider.enabled = state;
+                    break;
+
+                case KnifeColliderType.Unactive:
+                    unactiveCollider.enabled = state;
+                    break;
+            }            
+        }
+
+        private void OnTriggerEnter(Collider other)
         {
             KnifeMono knife = other.transform.GetComponent<KnifeMono>();
             LogMono log = other.transform.GetComponent<LogMono>();

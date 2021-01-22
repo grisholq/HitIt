@@ -22,11 +22,10 @@ namespace HitIt.Ecs
             knife.transform.SetParent(knifes.KnifesParent);
             knife.Rigidbody.maxAngularVelocity = settings.MaxAngularVelocity;
             knife.SpawnTime = Time.time;
-
-            knife.Rigidbody.isKinematic = true;
-            knife.Rigidbody.detectCollisions = false;
-            knife.SetColliderType(KnifeColliderType.Active);
-
+            
+            knife.Stop(false);
+            knife.ColliderType = KnifeColliderType.Active;
+            
             return knife;
         }
     }

@@ -15,7 +15,7 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogLevelSettings> logSettingsFilter = null;
 
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
-        private EcsFilter<AllKnifeAttachedEvent> knifesAttachedEvent = null;
+        private EcsFilter<AllKnifesAttachedEvent> knifesAttachedEvent = null;
 
         private LogSpawner Spawner { get { return logSpawnerFilter.Data; } }
         private LogAttacher Attacher { get { return logAttacherFilter.Data; } }
@@ -47,17 +47,15 @@ namespace HitIt.Ecs
 
         public void Run()
         {
+            if(knifesAttachedEvent.EntitiesCount != 0) return;
+
             RunEvents();
 
-            if (knifesAttachedEvent.EntitiesCount != 0) return;
-
-            if (Attacher.AttachedKnifesCount == Settings.KnifesToAttach)
+            if(Settings.KnifesToAttach == Attacher.AttachedKnifesCount)
             {
                 Breaker.BreakLog(Buffer.ActiveLog);
-                world.CreateEntityWith<AllKnifeAttachedEvent>();
-                return;
+                world.CreateEntityWith<AllKnifesAttachedEvent>().Knifes = Attacher.GetAttachedKnifes();
             }
-            
 
             Rotator.RotateLog(Buffer.ActiveLog.transform);
         }
