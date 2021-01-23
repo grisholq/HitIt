@@ -18,9 +18,8 @@ namespace HitIt.Ecs
         public KnifeMono GetKnife()
         {
             KnifeMono knife = Object.Instantiate(settings.Knife).GetComponent<KnifeMono>();
-            knife.transform.eulerAngles = Vector3.zero;
             knife.transform.SetParent(knifes.KnifesParent);
-            knife.Rigidbody.maxAngularVelocity = settings.MaxAngularVelocity;
+            knife.Rigidbody.maxAngularVelocity = settings.MaxKnifeAngularVelocity;
             knife.SpawnTime = Time.time;
             
             knife.Rigidbody.isKinematic = true;

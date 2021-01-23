@@ -3,7 +3,7 @@ using HitIt.Other;
 
 namespace HitIt.Ecs
 {
-    public class KnifeMono : MonoBehaviour, IForceable, ICollidable, IAttachable
+    public class KnifeMono : MonoBehaviour, ILogObject
     {
         [SerializeField] private new Rigidbody rigidbody;
 
@@ -81,18 +81,28 @@ namespace HitIt.Ecs
         {
             KnifeMono knife = other.transform.GetComponent<KnifeMono>();
             LogMono log = other.transform.GetComponent<LogMono>();
+            AppleMono apple = other.transform.GetComponent<AppleMono>();
 
             if (knife != null)
             {
                 if (SpawnTime > knife.SpawnTime)
                 {
                     World.Instance.Current.CreateEntityWith<KnifeHitKnifeEvent>().Knife = this;
+                    return;
                 }
             }
 
             if (log != null)
             {
                 World.Instance.Current.CreateEntityWith<KnifeHitLogEvent>().Knife = this;
+                return;
+            }
+
+
+            if (apple != null)
+            {
+                World.Instance.Current.CreateEntityWith<KnifeHitAppleEvent>().Knife = this;
+                return;
             }
         }
     }

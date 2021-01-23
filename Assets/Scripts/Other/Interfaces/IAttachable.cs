@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace HitIt.Ecs
+namespace HitIt.Other
 {
     public interface IAttachable
     {

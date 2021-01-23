@@ -9,13 +9,19 @@ namespace HitIt.Storage
         public float RotationMultiplier;
 
         public Transform Log;
-
+        
         public float KnifeRadius;
 
         public float LogExplosionForce;
         public float LogExplosionRadius;
 
         public int KnifesToAttach;
+
+        public Transform Apple;
+        
         public int ApplesToAttach;
+
+        public float MaxAppleAngularVelocity;
+        
     }
 }

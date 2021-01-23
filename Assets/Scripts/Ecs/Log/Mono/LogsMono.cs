@@ -6,7 +6,8 @@ namespace HitIt.Ecs
     {
         [SerializeField] private Transform logParent;
         [SerializeField] private Transform logPosition;
-       
+        [SerializeField] private Transform applesParent;
+
         public Transform LogParent
         {
             get
@@ -20,6 +21,14 @@ namespace HitIt.Ecs
             get
             {
                 return logPosition;
+            }
+        }
+
+        public Transform ApplesParent
+        {
+            get
+            {
+                return applesParent;
             }
         }
     }

@@ -18,3 +18,7 @@ MonoBehaviour:
   KnifeRadius: 1
   LogExplosionForce: 300
   LogExplosionRadius: 0
+  KnifesToAttach: 1
+  Apple: {fileID: 6391039029277534291, guid: ea0feeefb8d11c842a5c3649bdcc4699, type: 3}
+  ApplesToAttach: 1
+  MaxAppleAngularVelocity: 10

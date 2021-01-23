@@ -9,14 +9,14 @@ namespace HitIt.Ecs
     {
         private LogSettings settings;
 
-        private List<KnifeMono> attachedKnifes;
-        private List<Transform> attachedObjects;
+        private List<KnifeMono> knifes;
+        private List<ILogObject> objects;
 
         public int AttachedKnifesCount
         {
             get
             {
-                return attachedKnifes.Count;
+                return knifes.Count;
             }
         }
 
@@ -24,20 +24,20 @@ namespace HitIt.Ecs
         {
             get
             {
-                return attachedObjects.Count;
+                return objects.Count;
             }
         }
 
         public void Inizialize()
         {
             settings = StorageFacility.Instance.GetStorageByType<LogSettings>();
-            attachedKnifes = new List<KnifeMono>();
-            attachedObjects = new List<Transform>();
+            knifes = new List<KnifeMono>();
+            objects = new List<ILogObject>();
         }
 
         public void AttachKnife(LogMono log, KnifeMono knife)
         {
-            attachedKnifes.Add(knife);
+            knifes.Add(knife);
 
             Vector3 knifePosition = knife.transform.position;
             Vector3 logPosition = log.transform.position;
@@ -52,22 +52,27 @@ namespace HitIt.Ecs
             knife.ColliderType = KnifeColliderType.Unactive;
         }
 
-        public void AttachObject(LogMono log, IAttachable attachable, float radius, float defaultAngle, float angle)
+        public void AttachObject(LogMono log, ILogObject attachable, float radius, float objecStartAngle, float angle)
         {
-            float realAngle = defaultAngle + angle;
-            Vector3 dir = new Vector3();
+            float angle_r = angle * Mathf.Deg2Rad;           
 
-            dir.y = Mathf.Sin(realAngle);
-            dir.z = Mathf.Cos(realAngle);
-            dir *= radius;
+            Vector3 pos = new Vector3();
+
+            pos.y = Mathf.Sin(angle_r);
+            pos.x = Mathf.Cos(angle_r);
+            pos *= radius;
 
             log.AddChild(attachable.Transform);
-            attachable.Transform.localPosition = dir;
+            attachable.Transform.localPosition = pos;
+
+            Vector3 eulers = attachable.Transform.localEulerAngles;
+            eulers.z = objecStartAngle + angle;
+            attachable.Transform.localEulerAngles = eulers;
         }
 
         public List<KnifeMono> GetAttachedKnifes()
         {
-            return attachedKnifes;
+            return knifes;
         }
     }
 }

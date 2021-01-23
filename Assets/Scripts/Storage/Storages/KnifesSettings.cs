@@ -7,7 +7,7 @@ namespace HitIt.Storage
     {
         public Transform Knife;
 
-        public float MaxAngularVelocity;
+        public float MaxKnifeAngularVelocity;
 
         public Vector3 ThrowForceDirection;
         public float ThrowForceMultiplier;

@@ -3,10 +3,10 @@ using HitIt.Other;
 
 namespace HitIt.Ecs
 {
-    public class AppleMono : MonoBehaviour, IForceable, ICollidable, IAttachable
+    public class AppleMono : MonoBehaviour, ILogObject
     {
-        private new Collider collider;
-        private new Rigidbody rigidbody;
+        [SerializeField] private new Collider collider;
+        [SerializeField] private new Rigidbody rigidbody;
 
         public bool IsTrigger 
         { 
