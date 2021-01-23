@@ -15,12 +15,7 @@ namespace HitIt.Ecs
 
         public void ForceKnife(KnifeMono knife, Vector3 force)
         {
-            knife.ApplyForce(force);
+            knife.Rigidbody.AddForce(force);
         }
-
-      /*  public void TorqueKnife(KnifeMono knife, Vector3 torque)
-        {
-            knife.ApplyTorque(force);
-        }*/
     }
 }

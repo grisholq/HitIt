@@ -3,7 +3,7 @@ using HitIt.Other;
 
 namespace HitIt.Ecs
 {
-    public class KnifeMono : MonoBehaviour
+    public class KnifeMono : MonoBehaviour, IForceable, ICollidable, IAttachable
     {
         [SerializeField] private new Rigidbody rigidbody;
 
@@ -24,69 +24,57 @@ namespace HitIt.Ecs
             set
             {
                 colliderType = value;
-                SetCollidersState(colliderState);
+                SetColliderActivity(colliderState);
             }
         }
-        public Rigidbody Rigidbody
+        public Rigidbody Rigidbody 
+        { 
+            get => rigidbody;
+            set { } 
+        }
+        public bool IsTrigger 
         {
             get
             {
-                return rigidbody;
+                return GetActiveCollider().isTrigger;
             }
+
+            set
+            {
+                GetActiveCollider().isTrigger = value;
+            }
+        }
+        public Transform Transform 
+        { 
+            get => transform;
+            set { }
+        }
+
+        public void SetColliderActivity(bool state)
+        {
+            colliderState = state;
+            activeCollider.enabled = false;
+            unactiveCollider.enabled = false;
+            GetActiveCollider().enabled = state;
+        }
+
+        private Collider GetActiveCollider()
+        {
+            switch (colliderType)
+            {
+                case KnifeColliderType.Active:
+                    return activeCollider;
+
+                case KnifeColliderType.Unactive:
+                    return unactiveCollider;
+            }
+            return null;
         }
 
         private void OnEnable()
         {
             colliderState = false;
             colliderType = KnifeColliderType.Active;
-        }
-
-        public void ApplyForce(Vector3 force)
-        {
-            rigidbody.AddForce(force, ForceMode.Acceleration);
-        }
-
-        public void ApplyTorque(Vector3 torque)
-        {
-            rigidbody.AddTorque(torque, ForceMode.Acceleration);
-        }
-
-        public void Activate()
-        {
-            rigidbody.isKinematic = false;
-            SetCollidersState(true);
-        }
-
-        public void Stop(bool collidable)
-        {
-            rigidbody.isKinematic = true;
-            SetCollidersState(collidable);
-        }
-
-        public void Deactivate()
-        {
-            rigidbody.isKinematic = false;
-            SetCollidersState(false);
-        }
-
-        private void SetCollidersState(bool state)
-        {
-            activeCollider.enabled = false; 
-            unactiveCollider.enabled = false;
-
-            colliderState = state;            
-            rigidbody.detectCollisions = state;
-
-            switch (ColliderType)
-            {
-                case KnifeColliderType.Active:
-                    activeCollider.enabled = state;
-                    break;
-
-                case KnifeColliderType.Unactive:
-                    unactiveCollider.enabled = state;
-                    break;
-            }            
         }
 
         private void OnTriggerEnter(Collider other)

@@ -26,6 +26,9 @@ namespace HitIt.Ecs
 
         public void Initialize()
         {
+            NextLevelDateEvent data = new NextLevelDateEvent();
+            data.LogKnifeAngle = 45;
+
             LogSpawner spawner = world.CreateEntityWith<LogSpawner>();
             LogBuffer buffer = world.CreateEntityWith<LogBuffer>();          
             world.CreateEntityWith<LogAttacher>().Inizialize();
@@ -38,6 +41,7 @@ namespace HitIt.Ecs
 
             LogMono log = spawner.GetLog();
             buffer.ActiveLog = log;
+            Attacher.AttachObject(buffer.ActiveLog, )
         }
 
         public void Destroy()

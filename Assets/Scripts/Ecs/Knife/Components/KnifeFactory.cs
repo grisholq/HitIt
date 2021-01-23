@@ -23,7 +23,8 @@ namespace HitIt.Ecs
             knife.Rigidbody.maxAngularVelocity = settings.MaxAngularVelocity;
             knife.SpawnTime = Time.time;
             
-            knife.Stop(false);
+            knife.Rigidbody.isKinematic = true;
+            knife.SetColliderActivity(false);
             knife.ColliderType = KnifeColliderType.Active;
             
             return knife;

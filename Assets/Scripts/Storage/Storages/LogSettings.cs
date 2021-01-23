@@ -14,5 +14,8 @@ namespace HitIt.Storage
 
         public float LogExplosionForce;
         public float LogExplosionRadius;
+
+        public int KnifesToAttach;
+        public int ApplesToAttach;
     }
 }

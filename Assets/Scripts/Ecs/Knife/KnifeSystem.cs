@@ -73,8 +73,10 @@ namespace HitIt.Ecs
                 {
                     Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
                     
-                    Buffer.ActiveKnife.Activate();
-                    Buffer.ActiveKnife.ApplyForce(Forces.ThrowForce);          
+                    Buffer.ActiveKnife.Rigidbody.isKinematic = false;
+                    Buffer.ActiveKnife.SetColliderActivity(true);
+                    Debug.Log(Forces.ThrowForce);
+                    Buffer.ActiveKnife.Rigidbody.AddForce(Forces.ThrowForce, ForceMode.Acceleration);          
                     Buffer.ActiveKnife = null;
                 }
 
@@ -103,14 +105,19 @@ namespace HitIt.Ecs
 
                 for (int i = 0; i < knifeHitEvent.EntitiesCount; i++)
                 {
-                    events[i].Knife.ApplyForce(Forces.RicochetForce);
-                    events[i].Knife.ApplyTorque(Forces.RicochetTorque);
+                    KnifeMono knife = events[i].Knife;
+
+                    knife.Rigidbody.velocity = Vector3.zero;
+                    knife.Rigidbody.isKinematic = false;
+                    knife.SetColliderActivity(false);
+                    knife.Rigidbody.AddForce(Forces.RicochetForce, ForceMode.Acceleration);
+                    knife.Rigidbody.AddTorque(Forces.RicochetTorque, ForceMode.Acceleration);
                 }
 
                 World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
             }
 
-             if(knifeForcesFilter.EntitiesCount != 0)
+            if(knifeForcesFilter.EntitiesCount != 0)
             {
                KnifesRandomForceEvent[] events = knifesRandomForcesEvent.Components1;
                 
@@ -118,11 +125,15 @@ namespace HitIt.Ecs
                 {
                     for (int i1 = 0; i1 < events[i].Knifes.Count; i1++)
                     {
-                        events[i].Knifes[i1].Activate();
-                        events[i].Knifes[i1].ApplyForce(Forces.RandomForce);
-                        events[i].Knifes[i1].ApplyTorque(Forces.RandomTorque);
+                        KnifeMono knife = events[i].Knifes[i1];
+
+                        knife.Rigidbody.isKinematic = false;
+                        knife.SetColliderActivity(false);
+                        knife.Rigidbody.AddForce(Forces.RandomForce, ForceMode.Acceleration);
+                        knife.Rigidbody.AddTorque(Forces.RandomTorque, ForceMode.Acceleration);
                     }              
                 }
+
                 World.Instance.RemoveEntitiesWith<KnifesRandomForceEvent>();             
             }
         }
