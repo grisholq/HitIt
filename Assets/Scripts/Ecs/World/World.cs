@@ -20,7 +20,8 @@ namespace HitIt.Ecs
 
             systems.Add(new ComponentsSystem())
             .Add(new InputSystem())
-            .Add(new CollisionSystem())           
+            .Add(new CollisionSystem()) 
+            .Add(new LevelSystem())
             .Add(new KnifeSystem())
             .Add(new LogSystem());
 

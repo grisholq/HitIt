@@ -37,10 +37,9 @@ namespace HitIt.Ecs
                 data.AttachableObjects = new AttachableObject[amount];
             }
 
-            data.AttachableObjects = new AttachableObject[amount];
-
             for (int i = 0; i < information.AttachedKnifesAmount; i++)
             {
+                data.AttachableObjects[i] = new AttachableObject();
                 AttachableObject buf = data.AttachableObjects[i];
                 buf.Angle = information.KnifesAngle[i];
                 buf.Type = AttachableObjectType.Knife;

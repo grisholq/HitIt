@@ -3,7 +3,7 @@ using HitIt.Ecs;
 
 namespace HitIt.Storage
 {
-    [CreateAssetMenu(fileName = "LevelSettings", menuName = "MyAssets/Settings/LevelSettings")]
+    [CreateAssetMenu(fileName = "LevelInformation", menuName = "MyAssets/Level/LevelInformation")]
     public class LevelInformation : ScriptableObject
     {
         public int KnifesAmount;

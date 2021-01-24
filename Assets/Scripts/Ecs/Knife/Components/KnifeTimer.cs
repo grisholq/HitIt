@@ -25,5 +25,10 @@ namespace HitIt.Ecs
 
             return false;
         }
+
+        public void Reset()
+        {
+            knifePeriod.SetLastTime(Time.time);
+        }
     }
 }

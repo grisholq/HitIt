@@ -58,7 +58,6 @@ namespace HitIt.Ecs
 
         private IEnumerator AccelerateLog(LogMono log, Vector3 acceleration, float time)
         {
-            Debug.Log(1);
             hasOperation = true;
             log.Rotatables.AddTorque(acceleration, ForceMode.Acceleration); 
 
@@ -70,7 +69,6 @@ namespace HitIt.Ecs
 
         private IEnumerator SetLogVelocity(LogMono log, Vector3 velocity, float time)
         {
-            Debug.Log(2);
             hasOperation = true;
             log.Rotatables.AddTorque(velocity, ForceMode.VelocityChange);
 

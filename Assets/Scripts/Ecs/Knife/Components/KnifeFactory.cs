@@ -41,5 +41,10 @@ namespace HitIt.Ecs
 
             return knife;
         }
+
+        public void ResetIndex()
+        {
+            knifeCount = 0;
+        }
     }
 }
