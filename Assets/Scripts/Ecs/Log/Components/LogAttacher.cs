@@ -72,5 +72,11 @@ namespace HitIt.Ecs
         {
             return knifes;
         }
+
+        public void Reset()
+        {
+            knifes.Clear();
+            objects.Clear();
+        }
     }
 }

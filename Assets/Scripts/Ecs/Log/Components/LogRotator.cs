@@ -15,9 +15,13 @@ namespace HitIt.Ecs
         public void Inizialize()
         {
             settings = StorageFacility.Instance.GetStorageByType<LogSettings>(); 
-            iterator = settings.RotationPattern.GetIterator();
             currentOperation = null;
             hasOperation = false;           
+        }
+
+        public void SetIterator(IIterator<LogRotationNode> iterator)
+        {
+            this
         }
 
         public void Process(LogMono log)

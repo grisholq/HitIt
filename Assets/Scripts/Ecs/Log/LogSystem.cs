@@ -20,6 +20,7 @@ namespace HitIt.Ecs
 
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
         private EcsFilter<AllKnifesAttachedEvent> knifesAttachedEvent = null;
+        private EcsFilter<LoadLevelEvent> loadLevelEvent = null;
 
         private LogSpawner Spawner { get { return logSpawnerFilter.Data; } }
         private LogAttacher Attacher { get { return logAttacherFilter.Data; } }
@@ -61,8 +62,22 @@ namespace HitIt.Ecs
             if(knifesAttachedEvent.EntitiesCount != 0) return;
 
             RunEvents();
+            RunLevelLoading();
+            RunSystem();
+        }
 
-            if(Settings.KnifesToAttach == Attacher.AttachedKnifesCount)
+        public void RunLevelLoading()
+        {
+
+        }
+
+        public void RunSystem()
+        {
+            if (knifesAttachedEvent.EntitiesCount != 0) return;
+
+            RunEvents();
+
+            if (Settings.KnifesToAttach == Attacher.AttachedKnifesCount)
             {
                 Breaker.BreakLog(Buffer.ActiveLog);
                 world.CreateEntityWith<KnifesRandomForceEvent>().Knifes = Attacher.GetAttachedKnifes();
