@@ -6,8 +6,17 @@ namespace HitIt.Ecs
     {
         [SerializeField] private LogPartMono[] logParts;
         [SerializeField] private Transform childs;
+        [SerializeField] private Rigidbody rotatables;
         [SerializeField] private Transform explosionPosition;
         [SerializeField] private new Collider collider;
+
+        public Rigidbody Rotatables 
+        {
+            get
+            {
+                return rotatables;
+            }
+        }
 
         public void Rotate(Vector3 rotation)
         {

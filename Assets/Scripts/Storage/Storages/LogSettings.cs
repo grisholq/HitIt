@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using HitIt.Ecs;
 
 namespace HitIt.Storage
 {
@@ -22,6 +23,7 @@ namespace HitIt.Storage
         public int ApplesToAttach;
 
         public float MaxAppleAngularVelocity;
-        
+
+        public LogRotationPattern RotationPattern;
     }
 }

@@ -47,8 +47,6 @@ namespace HitIt.Ecs
             log.AddChild(knife.transform);
             knife.transform.eulerAngles = Vector3.zero;
 
-            knife.Rigidbody.isKinematic = true;
-            knife.SetColliderActivity(true);
             knife.ColliderType = KnifeColliderType.Unactive;
         }
 

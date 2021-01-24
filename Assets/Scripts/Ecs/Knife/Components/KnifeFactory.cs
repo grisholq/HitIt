@@ -9,23 +9,36 @@ namespace HitIt.Ecs
         private KnifesSettings settings;
         private KnifesMono knifes;
 
+        private int knifeCount;
+
         public void Inizialize()
         {
             settings = StorageFacility.Instance.GetStorageByType<KnifesSettings>();
             knifes = StorageFacility.Instance.GetTransform(TransformObject.KnifesMono).GetComponent<KnifesMono>();
+            knifeCount = 0;
         }
 
         public KnifeMono GetKnife()
         {
             KnifeMono knife = Object.Instantiate(settings.Knife).GetComponent<KnifeMono>();
             knife.transform.SetParent(knifes.KnifesParent);
-            knife.Rigidbody.maxAngularVelocity = settings.MaxKnifeAngularVelocity;
-            knife.SpawnTime = Time.time;
-            
-            knife.Rigidbody.isKinematic = true;
-            knife.SetColliderActivity(false);
+            knife.Rigidbody.maxAngularVelocity = settings.MaxKnifeAngularVelocity;             
             knife.ColliderType = KnifeColliderType.Active;
-            
+            knife.Number = knifeCount;
+            knifeCount++;
+
+            return knife;
+        }
+
+        public KnifeMono GetAttachKnife()
+        {
+            KnifeMono knife = Object.Instantiate(settings.Knife).GetComponent<KnifeMono>();
+            knife.transform.SetParent(knifes.KnifesParent);
+            knife.Rigidbody.maxAngularVelocity = settings.MaxKnifeAngularVelocity;
+            knife.ColliderType = KnifeColliderType.Active;
+            knife.Number = knifeCount;
+            knifeCount = int.MaxValue;
+
             return knife;
         }
     }

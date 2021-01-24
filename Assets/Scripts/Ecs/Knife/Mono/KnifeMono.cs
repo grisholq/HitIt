@@ -13,7 +13,7 @@ namespace HitIt.Ecs
         private KnifeColliderType colliderType;
         private bool colliderState;
 
-        public float SpawnTime { get; set; }
+        public float Number { get; set; }
         public KnifeColliderType ColliderType 
         {
             get
@@ -85,8 +85,9 @@ namespace HitIt.Ecs
 
             if (knife != null)
             {
-                if (SpawnTime > knife.SpawnTime)
+                if (Number > knife.Number)
                 {
+                    
                     World.Instance.Current.CreateEntityWith<KnifeHitKnifeEvent>().Knife = this;
                     return;
                 }
@@ -101,7 +102,7 @@ namespace HitIt.Ecs
 
             if (apple != null)
             {
-                World.Instance.Current.CreateEntityWith<KnifeHitAppleEvent>().Knife = this;
+                World.Instance.Current.CreateEntityWith<KnifeHitAppleEvent>().Apple = apple;
                 return;
             }
         }

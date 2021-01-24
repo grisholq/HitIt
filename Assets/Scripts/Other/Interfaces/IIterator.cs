@@ -4,5 +4,6 @@
     {
         T Next();
         bool HasNext();
+        void ToBegin();
     }
 }

@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using LeopotamGroup.Ecs;
+﻿using LeopotamGroup.Ecs;
 
 namespace HitIt.Ecs
 {
@@ -8,20 +7,24 @@ namespace HitIt.Ecs
     {
         private EcsWorld world = null;
 
+        private EcsFilterSingle<LevelFactory> levelFactoryFilter = null;
+
+        private LevelFactory Factory { get { return levelFactoryFilter.Data; } }
 
         public void Initialize()
         {
-
+            world.CreateEntityWith<LevelFactory>().Inizialize();
         }
 
         public void Destroy()
         {
 
+            
         }
 
         public void Run()
         {
-
+            
         }
 
         private void RunEvents()

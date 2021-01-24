@@ -16,10 +16,12 @@ namespace HitIt.Ecs
         private EcsFilterSingle<KnifeUIHandler> knifeUIFilter = null;
         private EcsFilterSingle<KnifeCounter> knifeCounterFilter = null;
         private EcsFilterSingle<KnifeForces> knifeForcesFilter = null;
+        private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
 
         private EcsFilterSingle<InputData> inputDataFilter = null;
-
-        private EcsFilter<KnifeHitKnifeEvent> knifeHitEvent = null;
+        
+        private EcsFilter<KnifeHitKnifeEvent> knifeHitKnifeEvent = null;
+        private EcsFilter<KnifeHitAppleEvent> knifeHitAppleEvent = null;
         private EcsFilter<KnifesExpiredEvent> knifesExpiredEvent = null;
         private EcsFilter<KnifesRandomForceEvent> knifesRandomForcesEvent = null;
 
@@ -31,8 +33,9 @@ namespace HitIt.Ecs
         private KnifeUIHandler UIHanlder { get { return knifeUIFilter.Data; } }
         private KnifeCounter Counter { get { return knifeCounterFilter.Data; } }
         private KnifeForces Forces { get { return knifeForcesFilter.Data; } }
+        private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
         private InputData Input { get { return inputDataFilter.Data; } }
-
+       
         public void Initialize()
         {
             KnifeFactory factory = world.CreateEntityWith<KnifeFactory>();
@@ -44,13 +47,13 @@ namespace HitIt.Ecs
             world.CreateEntityWith<KnifesPreparer>().Inizialize();
             world.CreateEntityWith<KnifeForces>().Inizialize();
 
-
             factory.Inizialize();
             positioner.Inizialize();
             knifeUI.Inizialize();
             counter.Inizialize();
 
             KnifeMono knife = factory.GetKnife();
+            LogObjectsSetter.Stop(knife, false);
             buffer.ActiveKnife = knife;
             positioner.SetKnifePosition(knife.transform, KnifePositions.Active);
             knifeUI.SetKnifeAmount(counter.Left, counter.Total);
@@ -72,10 +75,7 @@ namespace HitIt.Ecs
                 if (Buffer.ActiveKnife != null)
                 {
                     Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
-                    
-                    Buffer.ActiveKnife.Rigidbody.isKinematic = false;
-                    Buffer.ActiveKnife.SetColliderActivity(true);
-                    Debug.Log(Forces.ThrowForce);
+                    LogObjectsSetter.Activate(Buffer.ActiveKnife);
                     Buffer.ActiveKnife.Rigidbody.AddForce(Forces.ThrowForce, ForceMode.Acceleration);          
                     Buffer.ActiveKnife = null;
                 }
@@ -83,6 +83,7 @@ namespace HitIt.Ecs
                 if (!Counter.KnifesExpired())
                 {
                     KnifeMono knife = Factory.GetKnife();
+                    LogObjectsSetter.Stop(knife, false);
                     Positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
                     Buffer.ActiveKnife = knife;
                     Counter.DecrementLeft();
@@ -99,17 +100,33 @@ namespace HitIt.Ecs
 
         private void RunEvents()
         {
-            if(knifeHitEvent.EntitiesCount != 0)
+            if (knifeHitAppleEvent.EntitiesCount != 0)
             {
-                KnifeHitKnifeEvent[] events = knifeHitEvent.Components1;
+                KnifeHitAppleEvent[] events = knifeHitAppleEvent.Components1;
 
-                for (int i = 0; i < knifeHitEvent.EntitiesCount; i++)
+                for (int i = 0; i < knifeHitAppleEvent.EntitiesCount; i++)
+                {
+                    AppleMono apple = events[i].Apple;
+
+                    apple.Rigidbody.velocity = Vector3.zero;
+                    LogObjectsSetter.Deactivate(apple);
+                    apple.Rigidbody.AddForce(Forces.RandomForce, ForceMode.Acceleration);
+                    apple.Rigidbody.AddTorque(Forces.RandomTorque, ForceMode.Acceleration);
+                }
+
+                World.Instance.RemoveEntitiesWith<KnifeHitAppleEvent>();
+            }
+
+            if (knifeHitKnifeEvent.EntitiesCount != 0)
+            {
+                KnifeHitKnifeEvent[] events = knifeHitKnifeEvent.Components1;
+
+                for (int i = 0; i < knifeHitKnifeEvent.EntitiesCount; i++)
                 {
                     KnifeMono knife = events[i].Knife;
 
                     knife.Rigidbody.velocity = Vector3.zero;
-                    knife.Rigidbody.isKinematic = false;
-                    knife.SetColliderActivity(false);
+                    LogObjectsSetter.Deactivate(knife);
                     knife.Rigidbody.AddForce(Forces.RicochetForce, ForceMode.Acceleration);
                     knife.Rigidbody.AddTorque(Forces.RicochetTorque, ForceMode.Acceleration);
                 }
@@ -117,24 +134,23 @@ namespace HitIt.Ecs
                 World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
             }
 
-            if(knifeForcesFilter.EntitiesCount != 0)
+            if (knifeForcesFilter.EntitiesCount != 0)
             {
-               KnifesRandomForceEvent[] events = knifesRandomForcesEvent.Components1;
-                
+                KnifesRandomForceEvent[] events = knifesRandomForcesEvent.Components1;
+
                 for (int i = 0; i < knifesRandomForcesEvent.EntitiesCount; i++)
                 {
                     for (int i1 = 0; i1 < events[i].Knifes.Count; i1++)
                     {
                         KnifeMono knife = events[i].Knifes[i1];
 
-                        knife.Rigidbody.isKinematic = false;
-                        knife.SetColliderActivity(false);
+                        LogObjectsSetter.Deactivate(knife);
                         knife.Rigidbody.AddForce(Forces.RandomForce, ForceMode.Acceleration);
                         knife.Rigidbody.AddTorque(Forces.RandomTorque, ForceMode.Acceleration);
-                    }              
+                    }
                 }
 
-                World.Instance.RemoveEntitiesWith<KnifesRandomForceEvent>();             
+                World.Instance.RemoveEntitiesWith<KnifesRandomForceEvent>();
             }
         }
     }

@@ -13,7 +13,8 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogBuffer> logBufferFilter = null;
         private EcsFilterSingle<LogBreaker> logBreakerFilter = null;
         private EcsFilterSingle<LogLevelSettings> logSettingsFilter = null;
-        
+        private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
+
         private EcsFilterSingle<AppleFactory> appleFactoryFilter = null;
         private EcsFilterSingle<KnifeFactory> knifeFactoryFilter = null;
 
@@ -26,16 +27,13 @@ namespace HitIt.Ecs
         private LogBuffer Buffer { get { return logBufferFilter.Data; } }
         private LogBreaker Breaker { get { return logBreakerFilter.Data; } }
         private LogLevelSettings Settings { get { return logSettingsFilter.Data; } }
-
+        private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
 
         private AppleFactory AppleFactory { get { return appleFactoryFilter.Data; } }
         private KnifeFactory KnifeFactory { get { return knifeFactoryFilter.Data; } }
 
         public void Initialize()
         {
-            NextLevelDateEvent data = new NextLevelDateEvent();
-            data.LogKnifeAngle = 45;
-
             LogSpawner spawner = world.CreateEntityWith<LogSpawner>();
             LogBuffer buffer = world.CreateEntityWith<LogBuffer>();          
             LogAttacher attacher = world.CreateEntityWith<LogAttacher>();
@@ -51,9 +49,6 @@ namespace HitIt.Ecs
 
             LogMono log = spawner.GetLog();
             buffer.ActiveLog = log;
-            attacher.AttachObject(buffer.ActiveLog, appleFactory.GetApple(), 1.1f, 0, -20);
-            attacher.AttachObject(buffer.ActiveLog, KnifeFactory.GetKnife(), 1.1f, -90, 120);
-            attacher.AttachObject(buffer.ActiveLog, KnifeFactory.GetKnife(), 1.1f, -90, 60);
         }
 
         public void Destroy()
@@ -74,7 +69,7 @@ namespace HitIt.Ecs
                 world.CreateEntityWith<AllKnifesAttachedEvent>();
             }
 
-            Rotator.RotateLog(Buffer.ActiveLog);
+            Rotator.Process(Buffer.ActiveLog);
         }
 
         public void RunEvents()
@@ -85,6 +80,7 @@ namespace HitIt.Ecs
 
                 for (int i = 0; i < knifeHitFilter.EntitiesCount; i++)
                 {
+                    LogObjectsSetter.Stop(events[i].Knife, true);
                     Attacher.AttachKnife(Buffer.ActiveLog, events[i].Knife);
                 }
 
