@@ -18,6 +18,7 @@ namespace HitIt.Ecs
 
         public void BreakLog(LogMono log)
         {
+            if (log == null) return;
             GlobalMono.Instance.StartCoroutine(Delay());
             log.DisableLog();
             log.ActivateLogParts();

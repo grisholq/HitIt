@@ -12,14 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f65f35356141304c90f17f53bf30a0e, type: 3}
   m_Name: LevelInformation
   m_EditorClassIdentifier: 
-  KnifesAmount: 10
-  AttachedKnifesAmount: 1
-  KnifesAngle:
-  - 45
-  ApplesAngle:
-  - 0
+  KnifesAmount: 5
+  AttachedKnifesAmount: 0
+  KnifesAngle: []
+  ApplesAngle: []
   LogRotationPattern: {fileID: 11400000, guid: 12683709aee727542b2c568d3de5f135, type: 2}
-  LogPrefab: {fileID: 8850786292365362237, guid: da4d4f64ae851f74bbd5c75561c34c18,
+  LogPrefab: {fileID: 2527668263054138624, guid: 212bd0f8e16b4b54bae98aed578606ba,
     type: 3}
-  AttachedKnifePrefab: {fileID: 2527668263054138624, guid: 212bd0f8e16b4b54bae98aed578606ba,
+  AttachedKnifePrefab: {fileID: 8850786292365362237, guid: da4d4f64ae851f74bbd5c75561c34c18,
     type: 3}

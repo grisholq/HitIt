@@ -14,5 +14,16 @@ namespace HitIt.Storage
 
         public float UnloadLevelTime;
         public float LoadLevelTime;
+
+        public int LevelsPerPhase;
+        public int LevelsPhases;
+
+        public float DifficultyMinPerLevel; 
+        public float DifficultyMaxPerLevel;
+
+        public float StartDifficultyMin;
+        public float StartDifficultyMax;
+
+        public float MaxDifficulty;
     }
 }

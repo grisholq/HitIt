@@ -15,9 +15,9 @@ namespace HitIt.Ecs
             settings = StorageFacility.Instance.GetStorageByType<LogSettings>();
         }
 
-        public LogMono GetLog()
+        public LogMono GetLog(Transform logPrefab)
         {
-            LogMono log = Object.Instantiate(settings.Log).GetComponent<LogMono>();
+            LogMono log = Object.Instantiate(logPrefab).GetComponent<LogMono>();
             log.transform.position = logsMono.LogPostion.position;
             log.transform.SetParent(logsMono.LogParent);
 

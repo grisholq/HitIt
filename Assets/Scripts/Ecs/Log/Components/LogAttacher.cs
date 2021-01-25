@@ -9,35 +9,30 @@ namespace HitIt.Ecs
     {
         private LogSettings settings;
 
-        private List<KnifeMono> knifes;
         private List<ILogObject> objects;
+
+        private int knifesCount;
 
         public int AttachedKnifesCount
         {
             get
             {
-                return knifes.Count;
-            }
-        }
-
-        public int AttachedObjectsCount
-        {
-            get
-            {
-                return objects.Count;
+                return knifesCount;
             }
         }
 
         public void Inizialize()
         {
             settings = StorageFacility.Instance.GetStorageByType<LogSettings>();
-            knifes = new List<KnifeMono>();
             objects = new List<ILogObject>();
+            knifesCount = 0;
         }
 
         public void AttachKnife(LogMono log, KnifeMono knife)
         {
-            knifes.Add(knife);
+            knifesCount++;
+
+            objects.Add(knife);
 
             Vector3 knifePosition = knife.transform.position;
             Vector3 logPosition = log.transform.position;
@@ -52,6 +47,8 @@ namespace HitIt.Ecs
 
         public void AttachObject(LogMono log, ILogObject attachable, float radius, float objecStartAngle, float angle)
         {
+            objects.Add(attachable);
+
             float angle_r = angle * Mathf.Deg2Rad;           
 
             Vector3 pos = new Vector3();
@@ -65,17 +62,17 @@ namespace HitIt.Ecs
 
             Vector3 eulers = attachable.Transform.localEulerAngles;
             eulers.z = objecStartAngle + angle;
-            attachable.Transform.localEulerAngles = eulers;
+            attachable.Transform.eulerAngles = eulers;
         }
 
-        public List<KnifeMono> GetAttachedKnifes()
+        public List<ILogObject> GetAttachedLogObjects()
         {
-            return knifes;
+            return objects;
         }
 
         public void Reset()
         {
-            knifes.Clear();
+            knifesCount = 0;
             objects.Clear();
         }
     }

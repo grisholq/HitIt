@@ -8,8 +8,6 @@ namespace HitIt.Storage
     {
         public Vector3 Rotation;
         public float RotationMultiplier;
-
-        public Transform Log;
         
         public float KnifeRadius;
 
@@ -25,5 +23,8 @@ namespace HitIt.Storage
         public float MaxAppleAngularVelocity;
 
         public LogRotationPattern RotationPattern;
+
+        public float AppleAttachRadius;
+        public float KnifeAttachRadius;
     }
 }

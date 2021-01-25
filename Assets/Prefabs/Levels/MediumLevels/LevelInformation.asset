@@ -15,7 +15,7 @@ MonoBehaviour:
   KnifesAmount: 10
   AttachedKnifesAmount: 1
   KnifesAngle:
-  - 45
+  - 0
   ApplesAngle:
   - 0
   LogRotationPattern: {fileID: 11400000, guid: 12683709aee727542b2c568d3de5f135, type: 2}

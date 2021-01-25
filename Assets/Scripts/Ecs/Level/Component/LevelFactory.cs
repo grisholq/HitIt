@@ -28,6 +28,7 @@ namespace HitIt.Ecs
             {
                 amount++;
                 data.AttachableObjects = new AttachableObject[amount];
+                data.AttachableObjects[data.AttachableObjects.Length - 1] = new AttachableObject();
                 AttachableObject last = data.AttachableObjects[data.AttachableObjects.Length - 1];
                 last.Type = AttachableObjectType.Apple;
                 last.Angle = information.ApplesAngle[Random.Range(0, information.ApplesAngle.Length - 1)];

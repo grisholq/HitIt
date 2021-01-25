@@ -2,7 +2,10 @@
 {
     public enum InterfaceObject
     {
-        KnifeUI
+        KnifeUI,
+        MainMenuUI,
+        GameOverUI,
+        GameUI
     }
 }
 

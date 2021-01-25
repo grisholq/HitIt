@@ -19,9 +19,16 @@ namespace HitIt.Ecs
             hasOperation = false;           
         }
 
+        public void StopOperation()
+        {
+            GlobalMono.Instance.StopCoroutine(currentOperation);
+            hasOperation = false;
+        }
+
+
         public void SetIterator(IIterator<LogRotationNode> iterator)
         {
-            this
+            this.iterator = iterator;
         }
 
         public void Process(LogMono log)
@@ -55,7 +62,7 @@ namespace HitIt.Ecs
             }
         }
 
-        public void StopLog(LogMono log)
+        private void StopLog(LogMono log)
         {
             log.Rotatables.angularVelocity = Vector3.zero;
         }
