@@ -9,6 +9,7 @@ namespace HitIt.Ecs
     {
         private EcsWorld world = null;
 
+        #region SingleFilters
         private EcsFilterSingle<LogSpawner> logSpawnerFilter = null;
         private EcsFilterSingle<LogAttacher> logAttacherFilter = null;
         private EcsFilterSingle<LogRotator> logRotatorFilter = null;
@@ -17,16 +18,19 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogLevelSettings> logSettingsFilter = null;
         private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
         private EcsFilterSingle<LogAttachRadii> logAttachRadiiFilter = null;
-
         private EcsFilterSingle<AppleFactory> appleFactoryFilter = null;
         private EcsFilterSingle<KnifeFactory> knifeFactoryFilter = null;
+        #endregion
 
+        #region Events
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
         private EcsFilter<AllKnifesAttachedEvent> knifesAttachedEvent = null;
-        private EcsFilter<LoadLevelEvent> loadLevelEvent = null;     
+        private EcsFilter<LoadLevelEvent> loadLevelEvent = null;
         private EcsFilter<UnloadLevelEvent> unloadLevelEvent = null;
         private EcsFilter<LogSystemFunction> logSystemFilter = null;
+        #endregion
 
+        #region Properties
         private LogSpawner Spawner { get { return logSpawnerFilter.Data; } }
         private LogAttacher Attacher { get { return logAttacherFilter.Data; } }
         private LogRotator Rotator { get { return logRotatorFilter.Data; } }
@@ -35,9 +39,9 @@ namespace HitIt.Ecs
         private LogLevelSettings Settings { get { return logSettingsFilter.Data; } }
         private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
         private LogAttachRadii LogRadii { get { return logAttachRadiiFilter.Data; } }
-
         private AppleFactory AppleFactory { get { return appleFactoryFilter.Data; } }
         private KnifeFactory KnifeFactory { get { return knifeFactoryFilter.Data; } }
+        #endregion
 
         public void Initialize()
         {

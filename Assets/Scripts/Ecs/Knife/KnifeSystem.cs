@@ -8,7 +8,8 @@ namespace HitIt.Ecs
     public class KnifeSystem : IEcsInitSystem, IEcsRunSystem
     {
         private EcsWorld world = null;
-
+        
+        #region SingleFilters
         private EcsFilterSingle<KnifeFactory> knifeFactoryFilter = null;
         private EcsFilterSingle<KnifeTimer> knifeTimerFilter = null;
         private EcsFilterSingle<KnifeBuffer> knifeBufferFilter = null;
@@ -19,9 +20,10 @@ namespace HitIt.Ecs
         private EcsFilterSingle<KnifeForces> knifeForcesFilter = null;
         private EcsFilterSingle<KnifesList> knifeListFilter = null;
         private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
-
         private EcsFilterSingle<InputData> inputDataFilter = null;
+        #endregion
 
+        #region Events
         private EcsFilter<KnifeHitKnifeEvent> knifeHitKnifeEvent = null;
         private EcsFilter<KnifeHitAppleEvent> knifeHitAppleEvent = null;
         private EcsFilter<KnifesExpiredEvent> knifesExpiredEvent = null;
@@ -29,7 +31,9 @@ namespace HitIt.Ecs
         private EcsFilter<LoadLevelEvent> loadLevelEvent = null; 
         private EcsFilter<UnloadLevelEvent> unloadLevelEvent = null;
         private EcsFilter<KnifeSystemFunction> knifeSystemFilter = null;
+        #endregion
 
+        #region Properties
         private KnifeFactory Factory { get { return knifeFactoryFilter.Data; } }
         private KnifeTimer Timer { get { return knifeTimerFilter.Data; } }
         private KnifeBuffer Buffer { get { return knifeBufferFilter.Data; } }
@@ -41,6 +45,7 @@ namespace HitIt.Ecs
         private KnifesList List { get { return knifeListFilter.Data; } }
         private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
         private InputData Input { get { return inputDataFilter.Data; } }
+        #endregion
 
         public void Initialize()
         {
