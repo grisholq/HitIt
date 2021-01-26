@@ -67,81 +67,61 @@ namespace HitIt.Ecs
 
         public void Run()
         {
-            RunLevelUnloading();
-            RunLevelLoading(); 
             if (knifeSystemFilter.EntitiesCount == 0) return;
             RunEvents();
             RunSystem();         
         }
-
-        public void RunLevelUnloading()
-        {
-            if (unloadLevelEvent.EntitiesCount == 0) return;
-
-            Buffer.ActiveKnife = null;
-            List.DestroyAll();
-            Factory.ResetIndex();
-
-            World.Instance.RemoveEntitiesWith<LogObjectRandomForce>();
-            World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
-            World.Instance.RemoveEntitiesWith<KnifeHitAppleEvent>();
-            World.Instance.RemoveEntitiesWith<KnifesExpiredEvent>();
-        }
-
-        private void RunLevelLoading()
-        {
-            if (loadLevelEvent.EntitiesCount == 0) return;
-
-            LevelData data = loadLevelEvent.Components1[0].Data;
-
-            Counter.Left = data.KnifesAmount;
-            Counter.Total = data.KnifesAmount;
-            UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
-            Timer.Reset();
-            Buffer.ActiveKnife = null;
-
-            KnifeMono knife = Factory.GetKnife();
-            Counter.DecrementLeft();
-            Positioner.SetKnifePosition(knife.transform, KnifePositions.Active);
-            Buffer.ActiveKnife = knife;
-            LogObjectsSetter.Stop(knife, false);
-            List.AddKnife(knife);
-        }
-
+     
         private void RunSystem()
         {
             if (knifesExpiredEvent.EntitiesCount != 0) return;
 
             if (Input.Pressed && Timer.Update())
             {
-                if (Buffer.ActiveKnife != null)
-                {
-                    Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
-                    LogObjectsSetter.Activate(Buffer.ActiveKnife);
-                    Buffer.ActiveKnife.Rigidbody.AddForce(Forces.ThrowForce, ForceMode.Acceleration);
-                    Buffer.ActiveKnife = null;
-                }
-
-                if (!Counter.KnifesExpired())
-                {
-                    KnifeMono knife = Factory.GetKnife();
-                    List.AddKnife(knife);
-                    LogObjectsSetter.Stop(knife, false);
-                    Positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
-                    Buffer.ActiveKnife = knife;
-                    Counter.DecrementLeft();
-                    UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
-                }
-                else
-                {
-                    world.CreateEntityWith<KnifesExpiredEvent>();
-                }
+                RunKnifeThrowing();
+                RunKnifeCreating();            
             }
 
             if (Buffer.ActiveKnife != null) Preparer.MoveKnifeToActivePosition(Buffer.ActiveKnife);
         }
 
+        private void RunKnifeThrowing()
+        {
+            if (Buffer.ActiveKnife != null)
+            {
+                Positioner.SetKnifePosition(Buffer.ActiveKnife.transform, KnifePositions.Active);
+                LogObjectsSetter.Activate(Buffer.ActiveKnife);
+                Buffer.ActiveKnife.Rigidbody.AddForce(Forces.ThrowForce, ForceMode.Acceleration);
+                Buffer.ActiveKnife = null;
+            }
+        }
+
+        private void RunKnifeCreating()
+        {
+            if (!Counter.KnifesExpired())
+            {
+                KnifeMono knife = Factory.GetKnife();
+                List.AddKnife(knife);
+                LogObjectsSetter.Stop(knife, false);
+                Positioner.SetKnifePosition(knife.transform, KnifePositions.Secondary);
+                Buffer.ActiveKnife = knife;
+                Counter.DecrementLeft();
+                UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
+            }
+            else
+            {
+                world.CreateEntityWith<KnifesExpiredEvent>();
+            }
+        }
+
         private void RunEvents()
+        {
+            RunAppleHitEvent();
+            RunKnifeHitEvent();
+            RunLogForceEvent();        
+        }
+
+        private void RunAppleHitEvent()
         {
             if (knifeHitAppleEvent.EntitiesCount != 0)
             {
@@ -157,7 +137,10 @@ namespace HitIt.Ecs
 
                 World.Instance.RemoveEntitiesWith<KnifeHitAppleEvent>();
             }
-
+        }
+        
+        private void RunKnifeHitEvent()
+        {
             if (knifeHitKnifeEvent.EntitiesCount != 0)
             {
                 KnifeHitKnifeEvent[] events = knifeHitKnifeEvent.Components1;
@@ -175,7 +158,10 @@ namespace HitIt.Ecs
                 world.CreateEntityWith<LevelFailedEvent>();
                 World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
             }
-
+        }
+        
+        private void RunLogForceEvent()
+        {
             if (knifeForcesFilter.EntitiesCount != 0)
             {
                 LogObjectRandomForce[] events = knifesRandomForcesEvent.Components1;

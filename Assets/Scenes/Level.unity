@@ -413,6 +413,14 @@ MonoBehaviour:
     interfaceObjects:
     - type: 0
       rect: {fileID: 604793629}
+    - type: 1
+      rect: {fileID: 1397708433}
+    - type: 2
+      rect: {fileID: 1665987310}
+    - type: 3
+      rect: {fileID: 1832731885}
+    - type: 4
+      rect: {fileID: 1878515952}
   Prefabs:
     prefabObjects: []
 --- !u!1 &556373455
@@ -563,7 +571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &635070489
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1381,13 +1389,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114842126}
-  m_LocalRotation: {x: 0.40821788, y: 0.23456976, z: -0.10938167, w: 0.8754261}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: -7.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 799616603}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: 30, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1114842128
 Light:
   m_ObjectHideFlags: 0
@@ -1400,7 +1408,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1786,7 +1794,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1397708433
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2042,7 +2050,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: -0.0008544922}
+  m_AnchoredPosition: {x: 0, y: -0.0009765625}
   m_SizeDelta: {x: -0.00012207031, y: 0.048828125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1665987311

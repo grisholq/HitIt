@@ -7,15 +7,16 @@ namespace HitIt.Ecs
 {
     public class Delayer
     {
-        public void Delay(Action action, float seconds)
+        public void Delay(Action first , Action second, float seconds)
         {
-            GlobalMono.Instance.StartCoroutine(DelaySecs(action, seconds));
+            GlobalMono.Instance.StartCoroutine(DelaySecs(first, second, seconds));
         }
 
-        private IEnumerator DelaySecs(Action action, float seconds)
+        private IEnumerator DelaySecs(Action first, Action second, float seconds)
         {
+            first();
             yield return new WaitForSeconds(seconds);
-            action();
+            second();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace HitIt.Ecs
         {
             get
             {
-                return settings.AppleAttachRadius;
+                return settings.KnifeAttachRadius;
             }
         }
 
@@ -24,7 +24,7 @@ namespace HitIt.Ecs
         {
             get
             {
-                return settings.KnifeAttachRadius;
+                return settings.AppleAttachRadius;
             }
         }
     }

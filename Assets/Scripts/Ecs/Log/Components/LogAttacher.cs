@@ -38,7 +38,7 @@ namespace HitIt.Ecs
             Vector3 logPosition = log.transform.position;
             knifePosition = (knifePosition - logPosition).normalized;
 
-            knife.transform.position = logPosition + knifePosition * settings.KnifeRadius;
+            knife.transform.position = logPosition + knifePosition * settings.KnifeAttachRadius;
             log.AddChild(knife.transform);
             knife.transform.eulerAngles = Vector3.zero;
 

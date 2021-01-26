@@ -13,6 +13,8 @@ namespace HitIt.Ecs
         private EcsFilter<GameOverMenuEvent> gameOverMenuFilter = null;
         private EcsFilter<MainMenuEvent> mainMenuFilter = null;
 
+
+
         private MenuSelector Selector { get { return menuSelectorFilter.Data; } }
 
         public void Initialize()
@@ -27,7 +29,7 @@ namespace HitIt.Ecs
 
         public void Run()
         {
-            
+            RunEvents();
         }
         
         public void RunEvents()

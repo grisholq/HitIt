@@ -22,6 +22,7 @@ namespace HitIt.Ecs
             .Add(new InputSystem())
             .Add(new CollisionSystem()) 
             .Add(new LevelSystem())
+            .Add(new LoaderSystem())
             .Add(new KnifeSystem())
             .Add(new LogSystem());
 

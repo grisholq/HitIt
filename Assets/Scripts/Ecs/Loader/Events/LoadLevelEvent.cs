@@ -2,6 +2,6 @@
 {
     public class LoadLevelEvent
     {
-        public LevelData Data { get; set; }
+        public LevelData LevelData { get; set; }
     }
 }

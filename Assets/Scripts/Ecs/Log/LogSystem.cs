@@ -62,62 +62,12 @@ namespace HitIt.Ecs
 
         public void Run()
         {
-            RunLevelUnloading();
-            RunLevelLoading(); 
             if (logSystemFilter.EntitiesCount == 0) return;
             RunEvents();           
             RunSystem();
         }
 
-        public void RunLevelUnloading()
-        {
-            if(unloadLevelEvent.EntitiesCount == 0) return;
-
-            if(Buffer.ActiveLog != null) Object.Destroy(Buffer.ActiveLog.gameObject);
-            Rotator.StopOperation();
-
-            World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
-            World.Instance.RemoveEntitiesWith<AllKnifesAttachedEvent>();
-        }
-
-        public void RunLevelLoading()
-        {
-            if (loadLevelEvent.EntitiesCount == 0) return;
-
-            LevelData data = loadLevelEvent.Components1[0].Data;
-
-            LogMono log = Spawner.GetLog(data.LogPrefab);
-            
-            Rotator.SetIterator(data.LogPattern.GetIterator());
-            Settings.KnifesToAttach = data.KnifesAmount;
-            Buffer.ActiveLog = log;
-            
-            Attacher.Reset();
-
-            for (int i = 0; i < data.AttachableObjects.Length; i++)
-            {
-                AttachableObject buf = data.AttachableObjects[i];
-
-                switch (buf.Type)
-                {
-                    case AttachableObjectType.Apple:
-
-                        AppleMono apple = AppleFactory.GetApple();
-                        LogObjectsSetter.Stop(apple, true);
-                        Attacher.AttachObject(Buffer.ActiveLog, apple, LogRadii.AppleRadius, 0, buf.Angle);
-                        break;
-
-                    case AttachableObjectType.Knife:
-
-                        KnifeMono knife = KnifeFactory.GetKnife();
-                        LogObjectsSetter.Stop(knife, true);
-                        knife.ColliderType = KnifeColliderType.Unactive;
-                        Attacher.AttachObject(Buffer.ActiveLog, knife, LogRadii.KnifeRadius, 90, buf.Angle);
-                        break;
-                }             
-            }
-        }
-
+        
         public void RunSystem()
         {            
             if (knifesAttachedEvent.EntitiesCount != 0) return;

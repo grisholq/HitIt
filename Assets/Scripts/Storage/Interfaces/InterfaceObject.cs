@@ -5,7 +5,8 @@
         KnifeUI,
         MainMenuUI,
         GameOverUI,
-        GameUI
+        GameUI,
+        AppleUI
     }
 }
 

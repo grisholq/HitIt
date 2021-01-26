@@ -12,14 +12,13 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LevelChooser> levelChooserFilter = null;
         private EcsFilterSingle<Delayer> delayeFilter = null;
 
-        private EcsFilter<LoadLevelEvent> loadLevelEvent = null;
-        private EcsFilter<UnloadLevelEvent> unloadLevelEvent = null;
-
         private EcsFilter<KnifeSystemFunction> knifeSystemFilter = null;
         private EcsFilter<LogSystemFunction> logSystemFilter = null;
        
         private EcsFilter<LevelFailedEvent> levelFailedEvent = null;
         private EcsFilter<LevelPassedEvent> levelPassedEvent = null;
+       
+        private EcsFilter<LevelResetEvent> levelResetEvent = null;
        
         private EcsFilter<StartGameEvent> startGameEvent = null;
 
@@ -31,7 +30,8 @@ namespace HitIt.Ecs
         {
             world.CreateEntityWith<LevelFactory>().Inizialize();
             world.CreateEntityWith<LevelChooser>().Inizialize();
-            world.CreateEntityWith<Delayer>();        
+            world.CreateEntityWith<Delayer>();
+            world.CreateEntityWith<StartGameEvent>();
         }
 
         public void Destroy()
@@ -56,26 +56,33 @@ namespace HitIt.Ecs
 
         private void RunEvents()
         {
-            World.Instance.RemoveEntitiesWith<LoadLevelEvent>();
-            World.Instance.RemoveEntitiesWith<UnloadLevelEvent>();
-
             if(startGameEvent.EntitiesCount != 0)
             {
                 LoadLevel();
+                World.Instance.RemoveEntitiesWith<StartGameEvent>();
+            }
+
+            if(levelPassedEvent.EntitiesCount != 0)
+            {
+                RunLevelPassedEvent();
+            }
+
+            if(levelFailedEvent.EntitiesCount != 0)
+            {
+                RunLevelFailedEvent();
+            }
+
+            if(levelResetEvent.EntitiesCount != 0)
+            {
+                RunLevelResetEvent();
             }
         }
 
         private void RunLevelPassedEvent()
         {
-            UnloadLevel();
+            Chooser.LevelPassed();
 
-            Delayer.Delay(() =>
-            {
-                LoadLevel();
-            }
-            , 0.30f);
-            
-            
+            Delayer.Delay(UnloadLevel, LoadLevel, 0.5f);
 
             World.Instance.RemoveEntitiesWith<LevelPassedEvent>();
         }
@@ -83,20 +90,44 @@ namespace HitIt.Ecs
         private void RunLevelFailedEvent()
         {
             UnloadLevel();
+            World.Instance.RemoveEntitiesWith<LevelFailedEvent>();
+        }
+        
+        private void RunLevelResetEvent()
+        {
+            Chooser.Reset();
+            World.Instance.RemoveEntitiesWith<LevelResetEvent>();
         }
 
         private void LoadLevel()
         {
-            world.CreateEntityWith<LoadLevelEvent>().Data = Factory.GetLevel(LevelDifficulty.Simple);
-            world.CreateEntityWith<KnifeSystemFunction>();
-            world.CreateEntityWith<LogSystemFunction>();
+            Delayer.Delay(
+            () =>
+            {
+                world.CreateEntityWith<LoadLevelEvent>().LevelData = Factory.GetLevel(Chooser.GetLevelDifficulty());
+            },
+            () =>
+            {
+                world.CreateEntityWith<KnifeSystemFunction>();
+                world.CreateEntityWith<LogSystemFunction>();
+            },
+            0.25f);                    
         }
 
         private void UnloadLevel()
         {
-            World.Instance.RemoveEntitiesWith<LogSystemFunction>();
-            World.Instance.RemoveEntitiesWith<KnifeSystemFunction>();
-            world.CreateEntityWith<UnloadLevelEvent>();
+            Delayer.Delay(
+            () => 
+            {
+                
+            }, 
+            () => 
+            {
+                World.Instance.RemoveEntitiesWith<KnifeSystemFunction>();
+                World.Instance.RemoveEntitiesWith<LogSystemFunction>();
+                world.CreateEntityWith<UnloadLevelEvent>();
+            }, 
+            0.25f);
         }
     }
 }

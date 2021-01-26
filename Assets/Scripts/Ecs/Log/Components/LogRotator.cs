@@ -25,6 +25,10 @@ namespace HitIt.Ecs
             hasOperation = false;
         }
 
+        public void StopLog(LogMono log)
+        {
+            log.Rotatables.angularVelocity = Vector3.zero;
+        }
 
         public void SetIterator(IIterator<LogRotationNode> iterator)
         {
@@ -60,11 +64,6 @@ namespace HitIt.Ecs
                     currentOperation = GlobalMono.Instance.StartCoroutine(SetLogVelocity(log, current.Rotation * current.Multiplier, current.Time));
                     break;
             }
-        }
-
-        private void StopLog(LogMono log)
-        {
-            log.Rotatables.angularVelocity = Vector3.zero;
         }
 
         private IEnumerator AccelerateLog(LogMono log, Vector3 acceleration, float time)

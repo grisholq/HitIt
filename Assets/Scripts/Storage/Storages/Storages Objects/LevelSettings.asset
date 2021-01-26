@@ -20,3 +20,10 @@ MonoBehaviour:
   AppleChance: 0.25
   UnloadLevelTime: 0.3
   LoadLevelTime: 0.3
+  LevelsPerPhase: 0
+  LevelsPhases: 0
+  DifficultyMinPerLevel: 0
+  DifficultyMaxPerLevel: 0
+  StartDifficultyMin: 0
+  StartDifficultyMax: 0
+  MaxDifficulty: 0
