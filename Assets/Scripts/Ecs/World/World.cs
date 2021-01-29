@@ -24,7 +24,8 @@ namespace HitIt.Ecs
             .Add(new LevelSystem())
             .Add(new LoaderSystem())
             .Add(new KnifeSystem())
-            .Add(new LogSystem());
+            .Add(new LogSystem())
+            .Add(new MenuSystem());
 
             systems.Initialize();
         }

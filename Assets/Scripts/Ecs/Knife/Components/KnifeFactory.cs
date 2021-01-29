@@ -36,8 +36,7 @@ namespace HitIt.Ecs
             knife.transform.SetParent(knifes.KnifesParent);
             knife.Rigidbody.maxAngularVelocity = settings.MaxKnifeAngularVelocity;
             knife.ColliderType = KnifeColliderType.Active;
-            knife.Number = knifeCount;
-            knifeCount = int.MaxValue;
+            knife.Number = int.MinValue;
 
             return knife;
         }

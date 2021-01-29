@@ -169,7 +169,7 @@ namespace HitIt.Ecs
 
                     case AttachableObjectType.Knife:
 
-                        KnifeMono knife = KnifeFactory.GetKnife();
+                        KnifeMono knife = KnifeFactory.GetAttachKnife();
                         LogObjectsSetter.Stop(knife, true);
                         knife.ColliderType = KnifeColliderType.Unactive;
                         Attacher.AttachObject(LogBuffer.ActiveLog, knife, LogRadii.KnifeRadius, 90, buf.Angle);

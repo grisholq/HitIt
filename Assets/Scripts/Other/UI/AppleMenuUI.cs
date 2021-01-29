@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace HitIt.Ecs
 {
-    public class AppleMenuUI
+    public class AppleMenuUI : MonoBehaviour
     {
         [SerializeField] private Text applesCount;
 

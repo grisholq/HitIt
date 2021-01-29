@@ -17,7 +17,7 @@ namespace HitIt.Ecs
             gameOverMenu = StorageFacility.Instance.GetInterface(InterfaceObject.GameOverUI);
         }
 
-        public void SetAllUnactive()
+        public void SetAllMenusUnactive()
         {
             mainMenu.gameObject.SetActive(false);
             gameMenu.gameObject.SetActive(false);

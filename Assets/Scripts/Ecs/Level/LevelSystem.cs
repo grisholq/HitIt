@@ -31,7 +31,6 @@ namespace HitIt.Ecs
             world.CreateEntityWith<LevelFactory>().Inizialize();
             world.CreateEntityWith<LevelChooser>().Inizialize();
             world.CreateEntityWith<Delayer>();
-            world.CreateEntityWith<StartGameEvent>();
         }
 
         public void Destroy()
@@ -42,16 +41,6 @@ namespace HitIt.Ecs
         public void Run()
         {
             RunEvents();
-
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                LoadLevel();
-            }
-
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                UnloadLevel();
-            }
         }
 
         private void RunEvents()
@@ -82,14 +71,20 @@ namespace HitIt.Ecs
         {
             Chooser.LevelPassed();
 
-            Delayer.Delay(UnloadLevel, LoadLevel, 0.5f);
+            Delayer.Delay(UnloadLevel, LoadLevel, 1f);
 
             World.Instance.RemoveEntitiesWith<LevelPassedEvent>();
         }
 
         private void RunLevelFailedEvent()
         {
-            UnloadLevel();
+            Delayer.Delay(
+                () => 
+                {
+                    world.CreateEntityWith<GameOverMenuEvent>();
+                }
+                , 
+                UnloadLevel, 0.4f);
             World.Instance.RemoveEntitiesWith<LevelFailedEvent>();
         }
         
@@ -111,7 +106,7 @@ namespace HitIt.Ecs
                 world.CreateEntityWith<KnifeSystemFunction>();
                 world.CreateEntityWith<LogSystemFunction>();
             },
-            0.25f);                    
+            0.35f);                    
         }
 
         private void UnloadLevel()
@@ -127,7 +122,7 @@ namespace HitIt.Ecs
                 World.Instance.RemoveEntitiesWith<LogSystemFunction>();
                 world.CreateEntityWith<UnloadLevelEvent>();
             }, 
-            0.25f);
+            0.35f);
         }
     }
 }
