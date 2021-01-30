@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using LeopotamGroup.Ecs;
-using HitIt.Other;
+﻿using LeopotamGroup.Ecs;
 
 namespace HitIt.Ecs
 {
@@ -10,37 +8,27 @@ namespace HitIt.Ecs
         private EcsWorld world = null;
 
         #region SingleFilters
-        private EcsFilterSingle<LogSpawner> logSpawnerFilter = null;
         private EcsFilterSingle<LogAttacher> logAttacherFilter = null;
         private EcsFilterSingle<LogRotator> logRotatorFilter = null;
         private EcsFilterSingle<LogBuffer> logBufferFilter = null;
         private EcsFilterSingle<LogBreaker> logBreakerFilter = null;
         private EcsFilterSingle<LogLevelSettings> logSettingsFilter = null;
         private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
-        private EcsFilterSingle<LogAttachRadii> logAttachRadiiFilter = null;
-        private EcsFilterSingle<AppleFactory> appleFactoryFilter = null;
-        private EcsFilterSingle<KnifeFactory> knifeFactoryFilter = null;
         #endregion
 
         #region Events
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
         private EcsFilter<AllKnifesAttachedEvent> knifesAttachedEvent = null;
-        private EcsFilter<LoadLevelEvent> loadLevelEvent = null;
-        private EcsFilter<UnloadLevelEvent> unloadLevelEvent = null;
         private EcsFilter<LogSystemFunction> logSystemFilter = null;
         #endregion
 
         #region Properties
-        private LogSpawner Spawner { get { return logSpawnerFilter.Data; } }
         private LogAttacher Attacher { get { return logAttacherFilter.Data; } }
         private LogRotator Rotator { get { return logRotatorFilter.Data; } }
         private LogBuffer Buffer { get { return logBufferFilter.Data; } }
         private LogBreaker Breaker { get { return logBreakerFilter.Data; } }
         private LogLevelSettings Settings { get { return logSettingsFilter.Data; } }
         private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
-        private LogAttachRadii LogRadii { get { return logAttachRadiiFilter.Data; } }
-        private AppleFactory AppleFactory { get { return appleFactoryFilter.Data; } }
-        private KnifeFactory KnifeFactory { get { return knifeFactoryFilter.Data; } }
         #endregion
 
         public void Initialize()
@@ -66,8 +54,7 @@ namespace HitIt.Ecs
             RunEvents();           
             RunSystem();
         }
-
-        
+      
         public void RunSystem()
         {            
             if (knifesAttachedEvent.EntitiesCount != 0) return;

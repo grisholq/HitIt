@@ -23,12 +23,17 @@ namespace HitIt.Ecs
 
         public void Run()
         {
+            RunEvents();
+        }
+
+        public void RunEvents()
+        {
             if (knifeHitLogEvent.EntitiesCount == 0 || knifeHitKnifeEvent.EntitiesCount == 0) return;
-           
+
             KnifeHitKnifeEvent knifeHit = knifeHitKnifeEvent.Components1[0];
             KnifeHitLogEvent logHit = knifeHitLogEvent.Components1[0];
 
-            if(knifeHit.Knife == logHit.Knife) World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
+            if (knifeHit.Knife == logHit.Knife) World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
         }
     }
 }

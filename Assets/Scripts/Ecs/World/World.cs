@@ -18,8 +18,7 @@ namespace HitIt.Ecs
 
             systems = new EcsSystems(world);
 
-            systems.Add(new ComponentsSystem())
-            .Add(new InputSystem())
+            systems.Add(new InputSystem())
             .Add(new CollisionSystem()) 
             .Add(new LevelSystem())
             .Add(new LoaderSystem())

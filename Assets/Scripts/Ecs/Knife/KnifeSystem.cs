@@ -28,8 +28,6 @@ namespace HitIt.Ecs
         private EcsFilter<KnifeHitAppleEvent> knifeHitAppleEvent = null;
         private EcsFilter<KnifesExpiredEvent> knifesExpiredEvent = null;
         private EcsFilter<LogObjectRandomForce> knifesRandomForcesEvent = null;
-        private EcsFilter<LoadLevelEvent> loadLevelEvent = null; 
-        private EcsFilter<UnloadLevelEvent> unloadLevelEvent = null;
         private EcsFilter<KnifeSystemFunction> knifeSystemFilter = null;
         #endregion
 
