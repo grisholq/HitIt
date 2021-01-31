@@ -6,7 +6,7 @@ namespace HitIt.Ecs
     {
         public void ProcessInput(InputData data)
         {
-            
+            data.Pressed = Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began;
         }
     }
 }

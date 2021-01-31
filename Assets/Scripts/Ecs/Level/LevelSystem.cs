@@ -8,23 +8,27 @@ namespace HitIt.Ecs
     {
         private EcsWorld world = null;
 
+        #region SingleFilters
         private EcsFilterSingle<LevelFactory> levelFactoryFilter = null;
         private EcsFilterSingle<LevelChooser> levelChooserFilter = null;
         private EcsFilterSingle<Delayer> delayeFilter = null;
+        #endregion
 
+        #region Events
         private EcsFilter<KnifeSystemFunction> knifeSystemFilter = null;
-        private EcsFilter<LogSystemFunction> logSystemFilter = null;
-       
+        private EcsFilter<LogSystemFunction> logSystemFilter = null;  
+        
         private EcsFilter<LevelFailedEvent> levelFailedEvent = null;
-        private EcsFilter<LevelPassedEvent> levelPassedEvent = null;
-       
-        private EcsFilter<LevelResetEvent> levelResetEvent = null;
-       
+        private EcsFilter<LevelPassedEvent> levelPassedEvent = null;       
+        private EcsFilter<LevelResetEvent> levelResetEvent = null;      
         private EcsFilter<StartGameEvent> startGameEvent = null;
+        #endregion
 
+        #region Properties
         private LevelFactory Factory { get { return levelFactoryFilter.Data; } }
         private LevelChooser Chooser { get { return levelChooserFilter.Data; } }
         private Delayer Delayer { get { return delayeFilter.Data; } }
+        #endregion
 
         public void Initialize()
         {
@@ -45,53 +49,61 @@ namespace HitIt.Ecs
 
         private void RunEvents()
         {
-            if(startGameEvent.EntitiesCount != 0)
-            {
-                LoadLevel();
-                World.Instance.RemoveEntitiesWith<StartGameEvent>();
-            }
-
-            if(levelPassedEvent.EntitiesCount != 0)
-            {
-                RunLevelPassedEvent();
-            }
-
-            if(levelFailedEvent.EntitiesCount != 0)
-            {
-                RunLevelFailedEvent();
-            }
-
-            if(levelResetEvent.EntitiesCount != 0)
-            {
-                RunLevelResetEvent();
-            }
+            RunStartGameEvent();
+            RunLevelPassedEvent();
+            RunLevelFailedEvent();
+            RunLevelResetEvent();
         }
 
         private void RunLevelPassedEvent()
         {
-            Chooser.LevelPassed();
-
-            Delayer.Delay(UnloadLevel, LoadLevel, 1f);
-
-            World.Instance.RemoveEntitiesWith<LevelPassedEvent>();
+            if (levelPassedEvent.EntitiesCount != 0)
+            {
+                Vibration.Vibrate(50);
+                Chooser.LevelPassed();
+                Delayer.Delay(UnloadLevel, LoadLevel, 0.7f);
+                World.Instance.RemoveEntitiesWith<LevelPassedEvent>();
+            }           
         }
 
         private void RunLevelFailedEvent()
         {
-            Delayer.Delay(
-                () => 
+            if (levelFailedEvent.EntitiesCount != 0)
+            {
+                Delayer.Delay(
+                () =>
                 {
-                    world.CreateEntityWith<GameOverMenuEvent>();
+                    Chooser.Reset(); 
+                    UnloadLevel();
                 }
-                , 
-                UnloadLevel, 0.4f);
-            World.Instance.RemoveEntitiesWith<LevelFailedEvent>();
+                ,
+                () =>
+                {                   
+                    World.Instance.Current.CreateEntityWith<GameOverMenuEvent>();
+                }
+                , 0.3f); 
+               
+                World.Instance.RemoveEntitiesWith<LevelFailedEvent>();
+            }        
         }
         
         private void RunLevelResetEvent()
         {
-            Chooser.Reset();
-            World.Instance.RemoveEntitiesWith<LevelResetEvent>();
+            if (levelResetEvent.EntitiesCount != 0)
+            {
+                Chooser.Reset();
+                World.Instance.RemoveEntitiesWith<LevelResetEvent>();
+            }          
+        }
+
+        private void RunStartGameEvent()
+        {
+            if (startGameEvent.EntitiesCount != 0)
+            {
+                Chooser.Reset();
+                LoadLevel();
+                World.Instance.RemoveEntitiesWith<StartGameEvent>();
+            }
         }
 
         private void LoadLevel()

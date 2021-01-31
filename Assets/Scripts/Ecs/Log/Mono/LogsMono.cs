@@ -7,6 +7,8 @@ namespace HitIt.Ecs
         [SerializeField] private Transform logParent;
         [SerializeField] private Transform logPosition;
         [SerializeField] private Transform applesParent;
+        [SerializeField] private AudioSource logHitSound;
+        [SerializeField] private AudioSource logCrackSound;
 
         public Transform LogParent
         {
@@ -29,6 +31,22 @@ namespace HitIt.Ecs
             get
             {
                 return applesParent;
+            }
+        }
+
+        public AudioSource LogHitSound
+        {
+            get
+            {
+                return logHitSound;
+            }
+        }
+        
+        public AudioSource LogCrackSound
+        {
+            get
+            {
+                return logCrackSound;
             }
         }
     }

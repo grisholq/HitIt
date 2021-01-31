@@ -7,6 +7,8 @@ namespace HitIt.Ecs
         [SerializeField] private Transform knifesParent;
         [SerializeField] private Transform activeKnifePosition;
         [SerializeField] private Transform secondaryKnifePosition;
+        [SerializeField] private AudioSource knifeHitSound;
+        [SerializeField] private AudioSource appleHitSound;
 
         public Transform KnifesParent
         {
@@ -30,6 +32,22 @@ namespace HitIt.Ecs
             get
             {
                 return secondaryKnifePosition;
+            }
+        }
+        
+        public AudioSource KnifeHitSound
+        {
+            get
+            {
+                return knifeHitSound;
+            }
+        }
+        
+        public AudioSource AppleHitSound
+        {
+            get
+            {
+                return appleHitSound;
             }
         }
     }

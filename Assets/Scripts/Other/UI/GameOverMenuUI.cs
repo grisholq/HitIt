@@ -6,8 +6,8 @@ namespace HitIt.Ecs
     {
         public void OnRestartButton()
         {
+            World.Instance.Current.CreateEntityWith<GameMenuEvent>();
             World.Instance.Current.CreateEntityWith<StartGameEvent>();
-            World.Instance.Current.CreateEntityWith<LevelResetEvent>();
         }
 
         public void OnMenuButton()

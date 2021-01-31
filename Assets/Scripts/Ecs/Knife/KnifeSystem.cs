@@ -19,6 +19,7 @@ namespace HitIt.Ecs
         private EcsFilterSingle<KnifeCounter> knifeCounterFilter = null;
         private EcsFilterSingle<KnifeForces> knifeForcesFilter = null;
         private EcsFilterSingle<KnifesList> knifeListFilter = null;
+        private EcsFilterSingle<KnifeSounds> knifeSoundsFilter = null;
         private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
         private EcsFilterSingle<InputData> inputDataFilter = null;
         #endregion
@@ -41,6 +42,7 @@ namespace HitIt.Ecs
         private KnifeCounter Counter { get { return knifeCounterFilter.Data; } }
         private KnifeForces Forces { get { return knifeForcesFilter.Data; } }
         private KnifesList List { get { return knifeListFilter.Data; } }
+        private KnifeSounds Sounds { get { return knifeSoundsFilter.Data; } }
         private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
         private InputData Input { get { return inputDataFilter.Data; } }
         #endregion
@@ -55,6 +57,8 @@ namespace HitIt.Ecs
             world.CreateEntityWith<KnifesPreparer>().Inizialize();
             world.CreateEntityWith<KnifeForces>().Inizialize();
             world.CreateEntityWith<KnifesList>().Inizialize();
+            world.CreateEntityWith<KnifeSounds>().Inizialize();
+            world.CreateEntityWith<LogObjectsSetter>();
             world.CreateEntityWith<KnifeBuffer>();
         }
 
@@ -123,6 +127,8 @@ namespace HitIt.Ecs
         {
             if (knifeHitAppleEvent.EntitiesCount != 0)
             {
+                Sounds.PlayAppleHitSound();
+
                 KnifeHitAppleEvent[] events = knifeHitAppleEvent.Components1;
 
                 for (int i = 0; i < knifeHitAppleEvent.EntitiesCount; i++)
@@ -141,6 +147,9 @@ namespace HitIt.Ecs
         {
             if (knifeHitKnifeEvent.EntitiesCount != 0)
             {
+                Vibration.Vibrate(50);
+                Sounds.PlayKnifeHitSound();
+
                 KnifeHitKnifeEvent[] events = knifeHitKnifeEvent.Components1;
 
                 for (int i = 0; i < knifeHitKnifeEvent.EntitiesCount; i++)

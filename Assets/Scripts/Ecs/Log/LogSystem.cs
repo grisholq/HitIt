@@ -14,6 +14,7 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogBreaker> logBreakerFilter = null;
         private EcsFilterSingle<LogLevelSettings> logSettingsFilter = null;
         private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
+        private EcsFilterSingle<LogSounds> logSoundsFilter = null;
         #endregion
 
         #region Events
@@ -29,6 +30,7 @@ namespace HitIt.Ecs
         private LogBreaker Breaker { get { return logBreakerFilter.Data; } }
         private LogLevelSettings Settings { get { return logSettingsFilter.Data; } }
         private LogObjectsSetter LogObjectsSetter { get { return logObjectsSetterFilter.Data; } }
+        private LogSounds Sounds { get { return logSoundsFilter.Data; } }
         #endregion
 
         public void Initialize()
@@ -40,6 +42,7 @@ namespace HitIt.Ecs
             world.CreateEntityWith<LogRotator>().Inizialize();
             world.CreateEntityWith<LogBreaker>().Inizialize();
             world.CreateEntityWith<LogAttachRadii>().Inizialize();
+            world.CreateEntityWith<LogSounds>().Inizialize();
             world.CreateEntityWith<LogLevelSettings>();
         }
 
@@ -65,6 +68,7 @@ namespace HitIt.Ecs
                 world.CreateEntityWith<LogObjectRandomForce>().Objects = Attacher.GetAttachedLogObjects();
                 world.CreateEntityWith<AllKnifesAttachedEvent>();
                 world.CreateEntityWith<LevelPassedEvent>();
+                Sounds.PlayLogCrackSound();
             }
 
             Rotator.Process(Buffer.ActiveLog);
@@ -74,10 +78,12 @@ namespace HitIt.Ecs
         {
             if(knifeHitFilter.EntitiesCount != 0)
             {
+                Sounds.PlayLogHitSound();
                 KnifeHitLogEvent[] events = knifeHitFilter.Components1;
 
                 for (int i = 0; i < knifeHitFilter.EntitiesCount; i++)
                 {
+                    Vibration.Vibrate(50);
                     LogObjectsSetter.Stop(events[i].Knife, true);
                     Attacher.AttachKnife(Buffer.ActiveLog, events[i].Knife);
                 }

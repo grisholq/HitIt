@@ -11,6 +11,8 @@ namespace HitIt.Ecs
 
         private void Awake()
         {
+            Vibration.Init();
+
             Application.targetFrameRate = 60;
 
             EcsWorld world = new EcsWorld();
