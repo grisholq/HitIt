@@ -1,4 +1,5 @@
 ﻿using LeopotamGroup.Ecs;
+using UnityEngine;
 
 namespace HitIt.Ecs
 {
@@ -16,7 +17,7 @@ namespace HitIt.Ecs
         private EcsFilterSingle<LogObjectsSetter> logObjectsSetterFilter = null;
         private EcsFilterSingle<LogSounds> logSoundsFilter = null;
         #endregion
-
+        
         #region Events
         private EcsFilter<KnifeHitLogEvent> knifeHitFilter = null;
         private EcsFilter<AllKnifesAttachedEvent> knifesAttachedEvent = null;
@@ -53,8 +54,8 @@ namespace HitIt.Ecs
 
         public void Run()
         {
-            if (logSystemFilter.EntitiesCount == 0) return;
-            RunEvents();           
+            RunEvents();
+            if (logSystemFilter.EntitiesCount == 0) return;                    
             RunSystem();
         }
       
@@ -67,7 +68,7 @@ namespace HitIt.Ecs
                 Breaker.BreakLog(Buffer.ActiveLog);
                 world.CreateEntityWith<LogObjectRandomForce>().Objects = Attacher.GetAttachedLogObjects();
                 world.CreateEntityWith<AllKnifesAttachedEvent>();
-                world.CreateEntityWith<LevelPassedEvent>();
+                world.CreateEntityWith<LevelPassedEvent>();                
                 Sounds.PlayLogCrackSound();
             }
 
@@ -88,6 +89,9 @@ namespace HitIt.Ecs
                     Attacher.AttachKnife(Buffer.ActiveLog, events[i].Knife);
                 }
 
+
+                Debug.Log(2);
+                world.CreateEntityWith<AddScoreEvent>();
                 World.Instance.RemoveEntitiesWith<KnifeHitLogEvent>();
             }       
         }

@@ -69,8 +69,8 @@ namespace HitIt.Ecs
 
         public void Run()
         {
-            if (knifeSystemFilter.EntitiesCount == 0) return;
             RunEvents();
+            if (knifeSystemFilter.EntitiesCount == 0) return;          
             RunSystem();         
         }
      
@@ -97,7 +97,7 @@ namespace HitIt.Ecs
                 Buffer.ActiveKnife = null;
             }
         }
-
+    
         private void RunKnifeCreating()
         {
             if (!Counter.KnifesExpired())
@@ -139,6 +139,7 @@ namespace HitIt.Ecs
                     LogObjectsSetter.Deactivate(apple);
                 }
 
+                world.CreateEntityWith<AddAppleEvent>();
                 World.Instance.RemoveEntitiesWith<KnifeHitAppleEvent>();
             }
         }
@@ -162,6 +163,9 @@ namespace HitIt.Ecs
                     knife.Rigidbody.AddTorque(Forces.RicochetTorque, ForceMode.Acceleration);
                 }
 
+                Debug.Log(1);
+                world.CreateEntityWith<NewScoreEvent>();
+                world.CreateEntityWith<ResetScoreEvent>();
                 world.CreateEntityWith<LevelFailedEvent>();
                 World.Instance.RemoveEntitiesWith<KnifeHitKnifeEvent>();
             }

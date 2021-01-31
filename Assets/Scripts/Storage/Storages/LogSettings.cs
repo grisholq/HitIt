@@ -22,7 +22,7 @@ namespace HitIt.Storage
 
         public float MaxAppleAngularVelocity;
 
-        public LogRotationPattern RotationPattern;
+       // public LogRotationPattern RotationPattern;
 
         public float AppleAttachRadius;
         public float KnifeAttachRadius;

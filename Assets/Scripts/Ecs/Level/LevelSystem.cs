@@ -61,7 +61,8 @@ namespace HitIt.Ecs
             {
                 Vibration.Vibrate(50);
                 Chooser.LevelPassed();
-                Delayer.Delay(UnloadLevel, LoadLevel, 0.7f);
+                Delayer.Delay(UnloadLevel, LoadLevel, 0.4f); 
+                World.Instance.RemoveEntitiesWith<LevelFailedEvent>();
                 World.Instance.RemoveEntitiesWith<LevelPassedEvent>();
             }           
         }
@@ -75,14 +76,17 @@ namespace HitIt.Ecs
                 {
                     Chooser.Reset(); 
                     UnloadLevel();
+                    world.CreateEntityWith<NewScoreEvent>();
+                    world.CreateEntityWith<ResetScoreEvent>();
                 }
                 ,
                 () =>
                 {                   
                     World.Instance.Current.CreateEntityWith<GameOverMenuEvent>();
                 }
-                , 0.3f); 
-               
+                , 0.3f);
+
+                World.Instance.RemoveEntitiesWith<LevelPassedEvent>();
                 World.Instance.RemoveEntitiesWith<LevelFailedEvent>();
             }        
         }
@@ -118,7 +122,7 @@ namespace HitIt.Ecs
                 world.CreateEntityWith<KnifeSystemFunction>();
                 world.CreateEntityWith<LogSystemFunction>();
             },
-            0.35f);                    
+            0.2f);                    
         }
 
         private void UnloadLevel()
@@ -134,7 +138,7 @@ namespace HitIt.Ecs
                 World.Instance.RemoveEntitiesWith<LogSystemFunction>();
                 world.CreateEntityWith<UnloadLevelEvent>();
             }, 
-            0.35f);
+            0.2f);
         }
     }
 }

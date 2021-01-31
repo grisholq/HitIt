@@ -7,11 +7,11 @@ namespace HitIt.Ecs
     {
         [SerializeField] private Text applesCount;
 
-        public int ApplesCount
+        public string ApplesCount
         {
             set
             {
-                applesCount.text = value.ToString();
+                applesCount.text = value;
             }
         }
     }

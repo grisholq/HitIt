@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f65f35356141304c90f17f53bf30a0e, type: 3}
+  m_Name: Level5
+  m_EditorClassIdentifier: 
+  KnifesAmount: 0
+  AttachedKnifesAmount: 0
+  KnifesAngle: []
+  ApplesAngle:
+  - 0
+  LogRotationPattern: {fileID: 11400000, guid: 7bef3c23ec0c06946ba2f56f6f810897, type: 2}
+  LogPrefab: {fileID: 8850786292365362237, guid: da4d4f64ae851f74bbd5c75561c34c18,
+    type: 3}
+  AttachedKnifePrefab: {fileID: 2527668263054138624, guid: 212bd0f8e16b4b54bae98aed578606ba,
+    type: 3}

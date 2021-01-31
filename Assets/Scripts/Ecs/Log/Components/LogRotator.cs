@@ -69,7 +69,8 @@ namespace HitIt.Ecs
         private IEnumerator AccelerateLog(LogMono log, Vector3 acceleration, float time)
         {
             hasOperation = true;
-            log.Rotatables.AddTorque(acceleration, ForceMode.Acceleration); 
+            log.Rotatables.AddTorque(acceleration, ForceMode.Acceleration);
+            log.Rotatables.angularDrag = 1;
 
             yield return new WaitForSeconds(time);
 
@@ -81,6 +82,7 @@ namespace HitIt.Ecs
         {
             hasOperation = true;
             log.Rotatables.AddTorque(velocity, ForceMode.VelocityChange);
+            log.Rotatables.angularDrag = 0;
 
             yield return new WaitForSeconds(time);
            

@@ -16,14 +16,14 @@ MonoBehaviour:
   MaxKnifeAngularVelocity: 50
   ThrowForceDirection: {x: 0, y: 1, z: 0}
   ThrowForceMultiplier: 850
-  RicochetForceMin: {x: -200, y: -300, z: 0}
-  RicochetForceMax: {x: 200, y: -500, z: 0}
-  RandomForceMin: {x: -300, y: -200, z: -300}
-  RandomForceMax: {x: 300, y: 0, z: 300}
+  RicochetForceMin: {x: -350, y: -400, z: 0}
+  RicochetForceMax: {x: 350, y: -600, z: 0}
+  RandomForceMin: {x: -400, y: -200, z: -400}
+  RandomForceMax: {x: 400, y: 200, z: 400}
   RandomTorqueMin: {x: -500, y: -500, z: -500}
   RandomTorqueMax: {x: 500, y: 500, z: 500}
   RicochetSpin: {x: 0, y: 0, z: 1}
-  RicochetSpinMultiplier: 1200
+  RicochetSpinMultiplier: 1400
   KnifeThrowPeriod: 0.1
   KnifePositioningTime: 0.1
   KnifesOnLevel: 100

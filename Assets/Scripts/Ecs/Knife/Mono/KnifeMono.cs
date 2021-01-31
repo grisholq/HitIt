@@ -10,6 +10,9 @@ namespace HitIt.Ecs
         [SerializeField] private Collider activeCollider;
         [SerializeField] private Collider unactiveCollider;
 
+        private bool collideKnifes;
+        private bool collideLog;
+
         private KnifeColliderType colliderType;
         private bool colliderState;
 
@@ -75,6 +78,8 @@ namespace HitIt.Ecs
         {
             colliderState = false;
             colliderType = KnifeColliderType.Active;
+            collideKnifes = true;
+            collideLog = true;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -87,7 +92,6 @@ namespace HitIt.Ecs
             {
                 if (Number > knife.Number)
                 {
-                    
                     World.Instance.Current.CreateEntityWith<KnifeHitKnifeEvent>().Knife = this;
                     return;
                 }

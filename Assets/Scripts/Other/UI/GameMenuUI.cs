@@ -8,17 +8,20 @@ namespace HitIt.Ecs
         [SerializeField] private Text score;
         [SerializeField] private Text knifes;
 
-        public int Score
+        public string Score
         {
             set
             {
-                score.text = value.ToString();
+                score.text = value;
             }
         }
 
-        public void SetKnifesCount(int current, int total)
+        public string Knifes
         {
-            knifes.text = current.ToString() + "/" + total.ToString();
+            set
+            {
+                knifes.text = value;
+            }
         }
     }
 }

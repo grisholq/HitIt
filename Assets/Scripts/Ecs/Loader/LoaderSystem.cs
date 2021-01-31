@@ -115,7 +115,7 @@ namespace HitIt.Ecs
 
             Counter.Left = data.KnifesAmount;
             Counter.Total = data.KnifesAmount;
-            UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
+            
             Timer.Reset();
 
             KnifeMono knife = KnifeFactory.GetKnife();
@@ -123,7 +123,8 @@ namespace HitIt.Ecs
             Positioner.SetKnifePosition(knife.transform, KnifePositions.Active);
             KnifeBuffer.ActiveKnife = knife;
             LogObjectsSetter.Stop(knife, false);
-            List.AddKnife(knife);
+            List.AddKnife(knife); 
+            UIHanlder.SetKnifeAmount(Counter.Left, Counter.Total);
         }
 
         public void KnifeUnloading()
